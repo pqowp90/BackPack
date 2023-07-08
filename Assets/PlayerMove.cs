@@ -20,6 +20,7 @@ public class PlayerMove : MonoBehaviour
     private Vector3 velocity;
     private PlayerAnimation playerAnimation;
     public bool isGrounded;
+    public bool isRunning;
 
     private void Start()
     {
@@ -46,13 +47,13 @@ public class PlayerMove : MonoBehaviour
 
     private void PositiveMove()
     {
-        isGrounded = controller.isGrounded;
+        
         float moveSpeed = speed;
-        if(playerAnimation.isRunning = Input.GetKey(KeyCode.LeftShift))
+        if(isRunning = Input.GetKey(KeyCode.LeftShift))
         {
-            
             moveSpeed *= 1.5f;
         }
+        playerAnimation.isRunning = isRunning;
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveZ = Input.GetAxisRaw("Vertical");
 
@@ -61,7 +62,7 @@ public class PlayerMove : MonoBehaviour
         // 캐릭터의 이동 방향을 계산합니다.
         float yVelocity = velocity.y;
         float airControll = moveLerp;
-        if(!isGrounded)
+        if(!controller.isGrounded)
         {
             airControll *= 0.3f;
         }
@@ -74,8 +75,8 @@ public class PlayerMove : MonoBehaviour
         // 중력을 적용합니다.
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
-
-        if (isGrounded)
+        isGrounded = controller.isGrounded;
+        if (controller.isGrounded)
         {
             // 캐릭터가 땅에 있을 때만 점프 가능하도록 처리합니다.
             if (Input.GetKeyDown(KeyCode.Space))
