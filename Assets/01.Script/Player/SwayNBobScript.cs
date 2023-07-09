@@ -90,7 +90,7 @@ public class SwayNBobScript : MonoBehaviour
     }
 
     void BobOffset(){
-        speedCurve += Time.deltaTime * (mover.isGrounded ? new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).magnitude*bobExaggeration * ((mover.isRunning)?1f : 1.5f) : 1f);
+        speedCurve += Time.deltaTime * (mover.isGrounded ? new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).magnitude*bobExaggeration * ((mover.isRunning)?1.5f : 1f) : 1f);
 
         bobPosition.x = (curveCos*bobLimit.x*(mover.isGrounded ? 1:0))-(walkInput.x * travelLimit.x);
         bobPosition.y = (curveSin*bobLimit.y)-(Input.GetAxis("Vertical") * travelLimit.y);

@@ -8,4 +8,8 @@ AnimatorOverrideController:
   m_PrefabAsset: {fileID: 0}
   m_Name: Scanner
   m_Controller: {fileID: 9100000, guid: baaf3ef7fa00a1645a2d57c02b687eee, type: 2}
-  m_Clips: []
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 5e9234bf5dcef4c49b91273eaa5b1306, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d180b817df1c182459b3fb4fcd2d1465, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 17cef48d53e71af418e32159edb09aaa, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 767cb965369320b49928283c8ff714c5, type: 2}
