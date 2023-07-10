@@ -17,12 +17,16 @@ public class PlayerAnimation : MonoBehaviour
     public bool isRunning;
     [SerializeField]
     private Animator handAnimator;
+    [SerializeField]
+    private Animator LegAnimator;
     private PlayerMove playerMove;
     private float lerpedRun;
     private float changeBlend;
     [SerializeField]
     private float changeDeley = 0.2f;
     private Coroutine changeToolCorutine;
+    public Vector3 moveDir;
+    private Vector3 lerpedMoveDir;
     private void Awake() {
         foreach (var tool in animatorOverideByEnums)
         {
@@ -58,6 +62,11 @@ public class PlayerAnimation : MonoBehaviour
         }
         lerpedRun = Mathf.Lerp(lerpedRun, ((isRunning&&playerMove.isGrounded)?1f:0f), Time.deltaTime * 10f);
         handAnimator.SetFloat("WalkSpeed", lerpedRun);
+        
+        lerpedMoveDir = Vector3.Lerp(lerpedMoveDir, moveDir, Time.deltaTime * 10f);
+
+        LegAnimator.SetFloat("X", lerpedMoveDir.x);
+        LegAnimator.SetFloat("Y", lerpedMoveDir.z);
     }
     
 }

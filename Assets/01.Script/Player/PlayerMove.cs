@@ -38,6 +38,7 @@ public class PlayerMove : MonoBehaviour
 
         xRotation -= mouseX;
         yRotation -= mouseY;
+
         yRotation = Mathf.Clamp(yRotation, -90f, 90f);
 
         myCamera.transform.localRotation = Quaternion.Euler(yRotation, 0f, 0f);
@@ -53,12 +54,13 @@ public class PlayerMove : MonoBehaviour
         {
             moveSpeed *= 1.5f;
         }
-        playerAnimation.isRunning = isRunning;
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveZ = Input.GetAxisRaw("Vertical");
+        playerAnimation.isRunning = isRunning && (moveX + moveZ > 0);
 
         Vector3 move = transform.right * moveX + transform.forward * moveZ;
         move.Normalize();
+        playerAnimation.moveDir = (Vector3.right * moveX + Vector3.forward * moveZ).normalized;
         // 캐릭터의 이동 방향을 계산합니다.
         float yVelocity = velocity.y;
         float airControll = moveLerp;
