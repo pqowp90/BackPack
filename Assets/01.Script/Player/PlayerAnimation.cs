@@ -18,11 +18,12 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField]
     private Animator handAnimator;
     [SerializeField]
-    private Animator LegAnimator;
+    private Animator legAnimator;
     [SerializeField]
-    private Animator ShadowAnimagtor;
+    private Animator shadowAnimagtor;
     private PlayerMove playerMove;
     private float lerpedRun;
+    private float run;
     private float changeBlend;
     [SerializeField]
     private float changeDeley = 0.2f;
@@ -35,8 +36,8 @@ public class PlayerAnimation : MonoBehaviour
             animatorDictionary.Add(tool.tool, tool.animatorOverrideController);
         }
         
-        LegAnimator.SetLayerWeight(1, 0f);
-        ShadowAnimagtor.SetLayerWeight(1, 1f);
+        legAnimator.SetLayerWeight(1, 0f);
+        shadowAnimagtor.SetLayerWeight(1, 1f);
     }
     public void ChangeToolAnimation(ToolEmum tool)
     {
@@ -50,47 +51,49 @@ public class PlayerAnimation : MonoBehaviour
     private IEnumerator ChangeToolState(ToolEmum tool)
     {
         handAnimator.SetTrigger("Changing");
-        ShadowAnimagtor.SetTrigger("Changing");
+        shadowAnimagtor.SetTrigger("Changing");
         yield return new WaitForSeconds(changeDeley);
         handAnimator.runtimeAnimatorController = animatorDictionary[tool];
-        ShadowAnimagtor.runtimeAnimatorController = animatorDictionary[tool];
+        shadowAnimagtor.runtimeAnimatorController = animatorDictionary[tool];
         changeBlend = 0f;
-        ShadowAnimagtor.SetLayerWeight(1, 1f);
+        shadowAnimagtor.SetLayerWeight(1, 1f);
         changeBlend = 0f;
         handAnimator.SetFloat("ChangeBlend", changeBlend);
-        ShadowAnimagtor.SetFloat("ChangeBlend", changeBlend);
+        shadowAnimagtor.SetFloat("ChangeBlend", changeBlend);
         handAnimator.SetTrigger("ChangeTool");
-        ShadowAnimagtor.SetTrigger("ChangeTool");
+        shadowAnimagtor.SetTrigger("ChangeTool");
     }
     private void Start() {
         playerMove = GetComponent<PlayerMove>();
     }
     public void Jump()
     {
-        ShadowAnimagtor.SetTrigger("Jump");
+        shadowAnimagtor.SetTrigger("Jump");
         handAnimator.SetTrigger("Jump");
-        LegAnimator.SetTrigger("Jump");
+        legAnimator.SetTrigger("Jump");
     }
     private void Update() {
         if(changeBlend <= 1)
         {
             changeBlend += Time.deltaTime / changeDeley;
             handAnimator.SetFloat("ChangeBlend", changeBlend);
-            ShadowAnimagtor.SetFloat("ChangeBlend", changeBlend);
+            shadowAnimagtor.SetFloat("ChangeBlend", changeBlend);
         }
-        lerpedRun = Mathf.Lerp(lerpedRun, ((isRunning&&playerMove.isGrounded)?1f:0f), Time.deltaTime * 10f);
+        run = ((isRunning&&playerMove.isGrounded)?1f:0f) + moveDir.magnitude;
+        lerpedRun = Mathf.Lerp(lerpedRun, run, Time.deltaTime * 10f);
         handAnimator.SetFloat("WalkSpeed", lerpedRun);
-        ShadowAnimagtor.SetFloat("WalkSpeed", lerpedRun);
+        legAnimator.SetFloat("WalkSpeed", lerpedRun);
+        shadowAnimagtor.SetFloat("WalkSpeed", lerpedRun);
         
         lerpedMoveDir = Vector3.Lerp(lerpedMoveDir, moveDir, Time.deltaTime * 10f);
 
-        LegAnimator.SetFloat("X", lerpedMoveDir.x);
-        LegAnimator.SetFloat("Y", lerpedMoveDir.z);
-        ShadowAnimagtor.SetFloat("X", lerpedMoveDir.x);
-        ShadowAnimagtor.SetFloat("Y", lerpedMoveDir.z);
+        legAnimator.SetFloat("X", lerpedMoveDir.x);
+        legAnimator.SetFloat("Y", lerpedMoveDir.z);
+        shadowAnimagtor.SetFloat("X", lerpedMoveDir.x);
+        shadowAnimagtor.SetFloat("Y", lerpedMoveDir.z);
 
-        ShadowAnimagtor.SetBool("IsGround", playerMove.isGrounded);
-        LegAnimator.SetBool("IsGround", playerMove.isGrounded);
+        shadowAnimagtor.SetBool("IsGround", playerMove.isGrounded);
+        legAnimator.SetBool("IsGround", playerMove.isGrounded);
         handAnimator.SetBool("IsGround", playerMove.isGrounded);
         
     }
