@@ -85,7 +85,7 @@ public class PlayerAnimation : MonoBehaviour
         legAnimator.SetFloat("WalkSpeed", lerpedRun);
         shadowAnimagtor.SetFloat("WalkSpeed", lerpedRun);
         
-        lerpedMoveDir = Vector3.Lerp(lerpedMoveDir, moveDir, Time.deltaTime * 10f);
+        lerpedMoveDir = Vector3.Lerp(lerpedMoveDir, moveDir * ((isRunning&&playerMove.isGrounded)?2f:1f), Time.deltaTime * 10f);
 
         legAnimator.SetFloat("X", lerpedMoveDir.x);
         legAnimator.SetFloat("Y", lerpedMoveDir.z);

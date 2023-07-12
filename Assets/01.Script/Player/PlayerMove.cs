@@ -19,7 +19,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private Vector3 velocity;
     private PlayerAnimation playerAnimation;
-    public bool isGrounded;
+    public bool isGrounded{get{return controller.isGrounded;}private set{}}
     public bool isRunning;
 
     private void Start()
@@ -48,10 +48,7 @@ public class PlayerMove : MonoBehaviour
 
     private void PositiveMove()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            playerAnimation.Jump();
-        }
+
 
         float moveSpeed = speed;
         if(isRunning = Input.GetKey(KeyCode.LeftShift))
@@ -81,7 +78,6 @@ public class PlayerMove : MonoBehaviour
         // 중력을 적용합니다.
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
-        isGrounded = controller.isGrounded;
         if (controller.isGrounded)
         {
             // 캐릭터가 땅에 있을 때만 점프 가능하도록 처리합니다.
@@ -89,6 +85,7 @@ public class PlayerMove : MonoBehaviour
             {
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
                 // 점프 높이에 따라 점프 속도를 계산합니다.
+                playerAnimation.Jump();
             }
             else
             {

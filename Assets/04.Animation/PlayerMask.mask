@@ -62,7 +62,7 @@ AvatarMask:
   - m_Path: Female/LowManHips/LowManRightUpLeg/LowManRightLeg/LowManRightFoot/LowManRightToeBase/LowManRightToeBase_end
     m_Weight: 1
   - m_Path: Female/LowManHips/LowManSpine
-    m_Weight: 0
+    m_Weight: 1
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1
     m_Weight: 0
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2
