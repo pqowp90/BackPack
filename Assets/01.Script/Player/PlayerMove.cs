@@ -48,7 +48,11 @@ public class PlayerMove : MonoBehaviour
 
     private void PositiveMove()
     {
-        
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            playerAnimation.Jump();
+        }
+
         float moveSpeed = speed;
         if(isRunning = Input.GetKey(KeyCode.LeftShift))
         {
@@ -56,7 +60,7 @@ public class PlayerMove : MonoBehaviour
         }
         float moveX = Input.GetAxisRaw("Horizontal");
         float moveZ = Input.GetAxisRaw("Vertical");
-        playerAnimation.isRunning = isRunning && (moveX + moveZ > 0);
+        playerAnimation.isRunning = isRunning && (Mathf.Abs(moveX) + Mathf.Abs(moveZ) > 0);
 
         Vector3 move = transform.right * moveX + transform.forward * moveZ;
         move.Normalize();
