@@ -2,6 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+[CustomEditor(typeof(ConveyorVeltMesh))]
+public class ConveyorVeltMeshEditor : Editor
+{
+    ConveyorVeltMesh conveyorVeltMesh;
+    public override void OnInspectorGUI()
+    {
+        if (GUILayout.Button("Generate Nodes"))
+        {
+            conveyorVeltMesh = (ConveyorVeltMesh)target;
+            conveyorVeltMesh.Create();
+        }
+    }
+}
 
 [RequireComponent(typeof(MeshFilter))]
 public class ConveyorVeltMesh : MonoBehaviour
@@ -11,11 +25,8 @@ public class ConveyorVeltMesh : MonoBehaviour
     Vector3[] vertices;
     int[] triangles;
 
-    private void Awake() {
-        mesh = GetComponent<MeshFilter>().mesh;
-    }
     // Start is called before the first frame update
-    void Start()
+    public void Create()
     {
         MakeMeshData();
         CreateMesh();
@@ -23,6 +34,7 @@ public class ConveyorVeltMesh : MonoBehaviour
 
     private void CreateMesh()
     {
+        mesh = GetComponent<MeshFilter>().sharedMesh;
         mesh.Clear();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
@@ -31,7 +43,7 @@ public class ConveyorVeltMesh : MonoBehaviour
 
     private void MakeMeshData()
     {
-        vertices = new Vector3[] {new Vector3(0,0,0), new Vector3(0,0,1), new Vector3(1,0,0)};
+        vertices = new Vector3[] {new Vector3(0,1,0), new Vector3(0,0,1), new Vector3(1,0,0)};
         triangles = new int[]{0, 1, 2};
     }
 
