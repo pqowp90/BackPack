@@ -6989,28 +6989,28 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   list:
-  - {x: -0.27599996, y: 2.2, z: -2.7529955}
+  - {x: -0.24999994, y: 2.2, z: -1.9299955}
   - {x: -2.499858, y: 2.2, z: -1.5}
-  - {x: -0.37558198, y: 2.2, z: -2.7509952}
-  - {x: -2.495303, y: 2.2, z: -1.5970013}
-  - {x: -0.474328, y: 2.2, z: -2.744992}
-  - {x: -2.481581, y: 2.2, z: -1.6880052}
-  - {x: -0.5722381, y: 2.2, z: -2.734986}
-  - {x: -2.4586923, y: 2.2, z: -1.7730117}
-  - {x: -0.6693121, y: 2.2, z: -2.7209775}
-  - {x: -2.4266367, y: 2.2, z: -1.8520209}
-  - {x: -0.76555014, y: 2.2, z: -2.7029662}
-  - {x: -2.3854144, y: 2.2, z: -1.9250326}
-  - {x: -0.86095226, y: 2.2, z: -2.6809523}
-  - {x: -2.335025, y: 2.2, z: -1.992047}
-  - {x: -0.95551836, y: 2.2, z: -2.6549356}
-  - {x: -2.275469, y: 2.2, z: -2.053064}
-  - {x: -1.0492485, y: 2.2, z: -2.6249163}
-  - {x: -2.2067459, y: 2.2, z: -2.1080835}
-  - {x: -1.1421424, y: 2.2, z: -2.5908942}
-  - {x: -2.1288562, y: 2.2, z: -2.1571057}
-  - {x: -1.2342006, y: 2.2, z: -2.5528696}
-  - {x: -2.0417995, y: 2.2, z: -2.2001305}
+  - {x: -0.34999597, y: 2.2, z: -1.9301963}
+  - {x: -2.494889, y: 2.2, z: -1.5948001}
+  - {x: -0.44998398, y: 2.2, z: -1.9307965}
+  - {x: -2.479925, y: 2.2, z: -1.6792006}
+  - {x: -0.5499641, y: 2.2, z: -1.9317963}
+  - {x: -2.4549663, y: 2.2, z: -1.7532015}
+  - {x: -0.6499361, y: 2.2, z: -1.9331958}
+  - {x: -2.4200127, y: 2.2, z: -1.8168026}
+  - {x: -0.7499001, y: 2.2, z: -1.9349949}
+  - {x: -2.3750644, y: 2.2, z: -1.8700039}
+  - {x: -0.8498562, y: 2.2, z: -1.9371935}
+  - {x: -2.320121, y: 2.2, z: -1.9128057}
+  - {x: -0.94980425, y: 2.2, z: -1.9397918}
+  - {x: -2.255183, y: 2.2, z: -1.9452078}
+  - {x: -1.0497444, y: 2.2, z: -1.9427896}
+  - {x: -2.18025, y: 2.2, z: -1.9672103}
+  - {x: -1.1496764, y: 2.2, z: -1.9461869}
+  - {x: -2.0953224, y: 2.2, z: -1.9788129}
+  - {x: -1.2496005, y: 2.2, z: -1.949984}
+  - {x: -2.0003996, y: 2.2, z: -1.980016}
 --- !u!1001 &1047138587
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8270,7 +8270,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1234169208}
   m_LocalRotation: {x: -0, y: 0.7071099, z: -0, w: -0.7071037}
-  m_LocalPosition: {x: -0.776, y: 2.2, z: -2.753}
+  m_LocalPosition: {x: -0.75, y: 2.2, z: -1.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10143,6 +10143,7 @@ GameObject:
   - component: {fileID: 1547350677}
   - component: {fileID: 1547350678}
   - component: {fileID: 1547350676}
+  - component: {fileID: 1547350679}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -10228,6 +10229,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1547350679
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1547350674}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 793445614}
 --- !u!1001 &1558786781
 PrefabInstance:
   m_ObjectHideFlags: 0
