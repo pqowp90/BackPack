@@ -35,9 +35,10 @@ public class PlayerAnimation : MonoBehaviour
         {
             animatorDictionary.Add(tool.tool, tool.animatorOverrideController);
         }
-        
-        legAnimator.SetLayerWeight(1, 0f);
-        shadowAnimagtor.SetLayerWeight(1, 1f);
+        if(legAnimator)
+            handAnimator.SetLayerWeight(1, 0f);
+        if(shadowAnimagtor)
+            shadowAnimagtor.SetLayerWeight(1, 1f);
     }
     public void ChangeToolAnimation(ToolEmum tool)
     {

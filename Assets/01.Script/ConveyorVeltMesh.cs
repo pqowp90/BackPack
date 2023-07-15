@@ -16,7 +16,10 @@ public class ConveyorVeltMeshEditor : Editor
             conveyorVeltMesh.Create();
         }
         if(conveyorVeltMesh)
+        {
+            conveyorVeltMesh = (ConveyorVeltMesh)target;
             conveyorVeltMesh.Create();
+        }
     }
 }
 
@@ -49,8 +52,8 @@ public class ConveyorVeltMesh : MonoBehaviour
 
     private void MakeMeshData()
     {
-        vertices = new Vector3[] {new Vector3(0,Y,0), new Vector3(0,0,1), new Vector3(1,0,0), new Vector3(1,0,1)};
-        triangles = new int[]{0, 1, 2, 2, 1, 3};
+        vertices = new Vector3[] {new Vector3(0,0,0), new Vector3(0,0,1), new Vector3(1,0,0), new Vector3(1,-1,1)};
+        triangles = new int[]{0, 1, 2, 2, 1, 3, 2, 3 ,0, 3, 1, 0};
     }
 
     // Update is called once per frame
