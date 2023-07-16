@@ -18,6 +18,8 @@ public class VeltBuildingTest : MonoBehaviour
     [SerializeField]
     private LayerMask layerMask;
     [SerializeField]
+    private int pointByAngle = 10;
+    [SerializeField]
     private List<Vector3> list = new List<Vector3>();
     private void Start()
     {
@@ -28,29 +30,53 @@ public class VeltBuildingTest : MonoBehaviour
         
         Building();
     }
-    private void Test()
+    private void Test(Transform target1, Transform target2)
     {
-        if(!test1 || !test2)
+        if(!target1 || !test2)
             return;
-        var test1V = test1.position - test1.forward * 0.5f;
-        var test2V = test2.position - test2.forward * 0.5f;
-        var test3V = (test2.position - test1.position).normalized * 0.5f + test1.position;
-        var test4V = (test1.position - test2.position).normalized * 0.5f + test2.position;
+        var test1V = target1.position;
+        var test2V = target2.position;
+        var test3V = test2V - (test1V + test1.forward * 0.5f);
+        test3V.y = 0f;
+
+        var test4V = Vector3.ClampMagnitude(test3V, 0.5f);
         list.Clear();
-        for (int i = 0; i < 11; ++i)
+
+        for (int i = 0; i <= pointByAngle; i++)
         {
-            list.Add(BezierCurve.QuadraticCurve(test1V, test1V + test1.forward * 0.5f, test3V, (float)i / 10f));
-            list.Add(BezierCurve.QuadraticCurve(test2V, test2V + test2.forward * 0.5f, test4V, (float)i / 10f));
+            list.Add(BezierCurve.QuadraticCurve(test1V, test1V + target1.forward * 0.5f, test1V + (test1.forward + test3V.normalized) * 0.5f , 
+                ((float)i / (float)pointByAngle) * (test4V.magnitude + 0.5f)));
         }
+        // var test1V = target1.position;
+        // var test2V = target2.position;
+        // Vector3 targetDir = ((test2V + target2.forward * 0.5f) - (test1V + target1.forward * 0.5f));
+        // Vector3 targetDir2 = ((test1V + target1.forward * 0.5f) - (test2V + target2.forward * 0.5f));
+        // var test3V = targetDir.normalized * 0.5f + test1V + target1.forward * 0.5f;
+        // var test4V = targetDir2.normalized * 0.5f + test2V + target2.forward * 0.5f;
+        // list.Clear();
+        // for (int i = 0; i <= pointByAngle; ++i)
+        // {
+        //     list.Add(BezierCurve.QuadraticCurve(test1V, test1V + target1.forward * 0.5f, test3V, 
+        //     ((float)i / (float)pointByAngle) * Mathf.Clamp(targetDir.magnitude, -1f, 1f)));
+        // }
+        
+        // for (int i = 0; i <= pointByAngle; ++i)
+        // {
+        //     list.Add(BezierCurve.QuadraticCurve(test2V, test2V + target2.forward * 0.5f, test4V, 
+        //     ((float)i / (float)pointByAngle) * Mathf.Clamp(targetDir2.magnitude, -1f, 1f)));
+        // }
+        
+        // Debug.DrawLine(test1V + target1.forward * 0.5f, test3V, Color.blue, 0f);
+        // Debug.DrawLine(test2V + target2.forward * 0.5f, test4V, Color.blue, 0f);
     }
     void OnDrawGizmos()
     {
 #if UNITY_EDITOR
-        Test();
+        Test(test1, test2);
         Gizmos.color = Color.red;
         foreach (var item in list)
         {
-            Gizmos.DrawWireSphere(item, 0.1f);
+            Gizmos.DrawWireSphere(item, 0.07f);
         }
 #endif
     }
