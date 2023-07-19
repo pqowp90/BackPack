@@ -254,7 +254,8 @@ public class VeltBuildingTest : MonoBehaviour
             remainDistance += Vector3.Distance(beforeJoint, joint);
             for (int i = 1; i <= (int)(remainDistance / vertexDistance); i++)
             {
-                nomalizedPoints.Add(Vector3.Lerp(beforeJoint, joint, ((vertexDistance * i) / remainDistance)));
+                if(Vector3.Distance(joint, veltJoint2.position) >= vertexDistance / 2f)
+                    nomalizedPoints.Add(Vector3.Lerp(beforeJoint, joint, ((vertexDistance * i) / remainDistance)));
             }
             remainDistance = remainDistance % vertexDistance;
             beforeJoint = joint;
