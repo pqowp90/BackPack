@@ -178,6 +178,16 @@ public class VeltBuildingTest : MonoBehaviour
 
         return test3V;
     }
+    private void SetSubJoint()
+    {
+        Vector3 check1 = CheckAngleIsTooBig(test1, test2);
+        Vector3 check2 = CheckAngleIsTooBig(test2, test1);
+        test4.position = test2.right * 0.5f * ((check2.x < 0)?-1f:1f) + test2.position + test2.forward * 0.5f;
+        test4.localEulerAngles = new Vector3(0f, ((check2.x < 0)?-90f:90f), 0f);
+
+        test3.position = test1.right * 0.5f * ((check1.x < 0)?-1f:1f) + test1.position + test1.forward * 0.5f;
+        test3.localEulerAngles = new Vector3(0f, ((check1.x < 0)?-90f:90f), 0f);
+    }
     void OnDrawGizmos()
     {
 #if UNITY_EDITOR
@@ -190,12 +200,26 @@ public class VeltBuildingTest : MonoBehaviour
         {
             Vector3 check1 = CheckAngleIsTooBig(test1, test2);
             Vector3 check2 = CheckAngleIsTooBig(test2, test1);
+            SetSubJoint();
+            Vector3 check3 = CheckAngleIsTooBig(test3, test4);
+            Vector3 check4 = CheckAngleIsTooBig(test4, test3);
+
+
             if(check2.z < 0)
             {
-                test4.gameObject.SetActive(true);
                 test4.position = test2.right * 0.5f * ((check2.x < 0)?-1f:1f) + test2.position + test2.forward * 0.5f;
                 test4.localEulerAngles = new Vector3(0f, ((check2.x < 0)?-90f:90f), 0f);
-                Test2(test1, test4);
+                test4.gameObject.SetActive(true);
+                if(check1.z < 0)
+                {
+                    Test2(test1, test2);
+                    Test2(test4, test3);
+                }
+                else
+                {
+                    Test2(test1, test4);
+                    Test2(test4, test1);
+                }
             }
             else
             {
@@ -205,24 +229,25 @@ public class VeltBuildingTest : MonoBehaviour
             
             if(check1.z < 0)
             {
-                test3.gameObject.SetActive(true);
                 test3.position = test1.right * 0.5f * ((check1.x < 0)?-1f:1f) + test1.position + test1.forward * 0.5f;
                 test3.localEulerAngles = new Vector3(0f, ((check1.x < 0)?-90f:90f), 0f);
-                Test2(test2, test3);
+                test3.gameObject.SetActive(true);
+                if(check2.z < 0)
+                {
+                    Test2(test3, test4);
+                    Test2(test2, test1);
+                }
+                else
+                {
+                    Test2(test3, test2);
+                    Test2(test2, test3);
+                }
             }
             else
             {
                 test3.gameObject.SetActive(false);
                 Test2(test2, test1);
             }
-
-
-
-            
-            
-
-            
-           
         }
         
         Gizmos.color = Color.red;
