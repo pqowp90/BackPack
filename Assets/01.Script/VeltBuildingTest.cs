@@ -6,18 +6,20 @@ public class VeltBuildingTest : MonoBehaviour
 {
     public PlayerTool playerTool;
     public Camera mainCamera;
-    public GameObject beltPolesPrefab;
-    public GameObject previewBeltPrefab;
-    public GameObject previewObject;
+    [SerializeField]
+    private GameObject beltPolesPrefab;
+    [SerializeField]
+    private GameObject previewBeltPrefab;
+    private GameObject previewObject;
     private Quaternion veltRotate = Quaternion.identity; 
     [SerializeField]
-    private Transform test1;
+    private Transform veltJoint1;
     [SerializeField]
-    private Transform test2;
+    private Transform veltJoint2;
     [SerializeField]
-    private Transform test3;
+    private Transform veltJoint3;
     [SerializeField]
-    private Transform test4;
+    private Transform veltJoint4;
     private Vector3 veltPos = Vector3.zero;
     [SerializeField]
     private LayerMask layerMask;
@@ -29,6 +31,15 @@ public class VeltBuildingTest : MonoBehaviour
     private float angle = 0f;
     [SerializeField]
     private List<Vector3> list = new List<Vector3>();
+    [SerializeField]
+    private float vertexDistance = 0.1f;
+    private List<Vector3> list1 = new List<Vector3>();
+    private List<Vector3> list2 = new List<Vector3>();
+    private List<Vector3> list3 = new List<Vector3>();
+    private List<Vector3> list4 = new List<Vector3>();
+    [SerializeField]
+    private List<Vector3> nomalizedPoints = new List<Vector3>();
+
     private void Start()
     {
         mainCamera = Camera.main;
@@ -38,10 +49,11 @@ public class VeltBuildingTest : MonoBehaviour
         
         Building();
     }
-    private void Test(Transform target1, Vector3 target2V)
+    private List<Vector3> Test(Transform target1, Vector3 target2V)
     {
+        List<Vector3> joints = new List<Vector3>();
         if(!target1)
-            return;
+            return null;
         var test1V = target1.position;
         var test2V = target2V;
  
@@ -60,9 +72,9 @@ public class VeltBuildingTest : MonoBehaviour
         
         if(test4V.magnitude < 0.1f)
         {
-            list.Add(test1V);
-            list.Add(test2V);
-            return;
+            joints.Add(test1V);
+            joints.Add(test2V);
+            return joints;
         }
 
 
@@ -70,73 +82,21 @@ public class VeltBuildingTest : MonoBehaviour
 
         for (int i = 0; i <= count; i++)
         {
-            list.Add(BezierCurve.QuadraticCurve(test1V, test1V + target1.forward * 0.5f, test1V + (target1.forward + test3V.normalized) * 0.5f , 
+            joints.Add(BezierCurve.QuadraticCurve(test1V, test1V + target1.forward * 0.5f, test1V + (target1.forward + test3V.normalized) * 0.5f , 
                 ((float)i / (float)count) * (test4V.magnitude + 0.5f)));
         }
-        test2.rotation = Quaternion.LookRotation(-test3V, Vector3.up);
-        // var test1V = target1.position;
-        // var test2V = target2.position;
-        // Vector3 targetDir = ((test2V + target2.forward * 0.5f) - (test1V + target1.forward * 0.5f));
-        // Vector3 targetDir2 = ((test1V + target1.forward * 0.5f) - (test2V + target2.forward * 0.5f));
-        // var test3V = targetDir.normalized * 0.5f + test1V + target1.forward * 0.5f;
-        // var test4V = targetDir2.normalized * 0.5f + test2V + target2.forward * 0.5f;
-        // list.Clear();
-        // for (int i = 0; i <= pointByAngle; ++i)
-        // {
-        //     list.Add(BezierCurve.QuadraticCurve(test1V, test1V + target1.forward * 0.5f, test3V, 
-        //     ((float)i / (float)pointByAngle) * Mathf.Clamp(targetDir.magnitude, -1f, 1f)));
-        // }
-        
-        // for (int i = 0; i <= pointByAngle; ++i)
-        // {
-        //     list.Add(BezierCurve.QuadraticCurve(test2V, test2V + target2.forward * 0.5f, test4V, 
-        //     ((float)i / (float)pointByAngle) * Mathf.Clamp(targetDir2.magnitude, -1f, 1f)));
-        // }
-        
+        veltJoint2.rotation = Quaternion.LookRotation(-test3V, Vector3.up);
+
         Debug.DrawLine(test1V + target1.forward * 0.5f, test1V + (target1.forward + test3V.normalized) * 0.5f , Color.blue, 0f);
-        // Debug.DrawLine(test2V + target2.forward * 0.5f, test4V, Color.blue, 0f);
-    }
-    private void Test3(Transform target1, Transform target2)
-    {
-        if(!target1 || !target2)
-            return;
-        var test1V = target1.position;
-        var test2V = target2.position + target2.forward * 0.5f;
- 
-        var test3V = test2V - (test1V + target1.forward * 0.5f);
-        test3V.y = 0f;
-
-        test3V = Quaternion.Inverse(target1.rotation) * test3V;
-        if(test3V.z < 0 )
-        {
-            test3V.z = 0f;
-        }
-        else{
-
-        }
-        test3V = target1.rotation * test3V;
-
-        var test4V = Vector3.ClampMagnitude(test3V, 0.5f);
-
         
-
-
-
-        int count = pointByAngle/2 + (int)(pointByAngle * test4V.magnitude * 0.5f);
-
-        for (int i = 0; i <= count; i++)
-        {
-            list.Add(BezierCurve.QuadraticCurve(test1V, test1V + target1.forward * 0.5f, test1V + (target1.forward + test3V.normalized) * 0.5f , 
-                ((float)i / (float)count) * (test4V.magnitude + 0.5f)));
-        }
-        test2.rotation = Quaternion.Euler(new Vector3(0f, angle - 180f, 0f));
-        
-        Debug.DrawLine(test1V + target1.forward * 0.5f, test1V + (target1.forward + test3V.normalized) * 0.5f , Color.blue, 0f);
+        return joints;
     }
-    private void Test2(Transform target1, Transform target2)
+    
+    private List<Vector3> Test2(Transform target1, Transform target2)
     {
+        List<Vector3> joints = new List<Vector3>();
         if(!target1 || !target2)
-            return;
+            return null;
         var test1V = target1.position;
         var test2V = target2.position + target2.forward * 0.5f;
  
@@ -162,12 +122,13 @@ public class VeltBuildingTest : MonoBehaviour
 
         for (int i = 0; i <= count; i++)
         {
-            list.Add(BezierCurve.QuadraticCurve(test1V, test1V + target1.forward * 0.5f, test1V + (target1.forward + test3V.normalized) * 0.5f , 
+            joints.Add(BezierCurve.QuadraticCurve(test1V, test1V + target1.forward * 0.5f, test1V + (target1.forward + test3V.normalized) * 0.5f , 
                 ((float)i / (float)count) * (test4V.magnitude + 0.5f)));
         }
-        test2.rotation = Quaternion.Euler(new Vector3(0f, angle - 180f, 0f));
+        veltJoint2.rotation = Quaternion.Euler(new Vector3(0f, angle - 180f, 0f));
         
         Debug.DrawLine(test1V + target1.forward * 0.5f, test1V + (target1.forward + test3V.normalized) * 0.5f , Color.blue, 0f);
+        return joints;
     }
     private Vector3 CheckAngleIsTooBig(Transform target1, Transform target2)
     {
@@ -180,83 +141,144 @@ public class VeltBuildingTest : MonoBehaviour
     }
     private void SetSubJoint()
     {
-        Vector3 check1 = CheckAngleIsTooBig(test1, test2);
-        Vector3 check2 = CheckAngleIsTooBig(test2, test1);
-        test4.position = test2.right * 0.5f * ((check2.x < 0)?-1f:1f) + test2.position + test2.forward * 0.5f;
-        test4.localEulerAngles = new Vector3(0f, ((check2.x < 0)?-90f:90f), 0f);
+        Vector3 check1 = CheckAngleIsTooBig(veltJoint1, veltJoint2);
+        Vector3 check2 = CheckAngleIsTooBig(veltJoint2, veltJoint1);
+        veltJoint4.position = veltJoint2.right * 0.5f * ((check2.x < 0)?-1f:1f) + veltJoint2.position + veltJoint2.forward * 0.5f;
+        veltJoint4.localEulerAngles = new Vector3(0f, ((check2.x < 0)?-90f:90f), 0f);
 
-        test3.position = test1.right * 0.5f * ((check1.x < 0)?-1f:1f) + test1.position + test1.forward * 0.5f;
-        test3.localEulerAngles = new Vector3(0f, ((check1.x < 0)?-90f:90f), 0f);
+        veltJoint3.position = veltJoint1.right * 0.5f * ((check1.x < 0)?-1f:1f) + veltJoint1.position + veltJoint1.forward * 0.5f;
+        veltJoint3.localEulerAngles = new Vector3(0f, ((check1.x < 0)?-90f:90f), 0f);
     }
-    void OnDrawGizmos()
+    private void GetJoints()
     {
-#if UNITY_EDITOR
         list.Clear();
+        list1.Clear();
+        list2.Clear();
+        list3.Clear();
+        list4.Clear();
         if(!isRotated)
         {
-            Test(test1, test2.position);
+            Vector3 check1 = CheckAngleIsTooBig(veltJoint1, veltJoint2);
+            if(check1.z < 0)
+            {
+                veltJoint3.position = veltJoint1.right * 0.5f * ((check1.x < 0)?-1f:1f) + veltJoint1.position + veltJoint1.forward * 0.5f;
+                veltJoint3.localEulerAngles = new Vector3(0f, ((check1.x < 0)?-90f:90f), 0f);
+                veltJoint3.gameObject.SetActive(true);
+
+                Test(veltJoint1, veltJoint3.position);
+                Test(veltJoint3, veltJoint2.position);
+
+            }
+            else
+            {
+                veltJoint3.gameObject.SetActive(false);
+
+                Test(veltJoint1, veltJoint2.position);
+            }
         }
         else
         {
-            Vector3 check1 = CheckAngleIsTooBig(test1, test2);
-            Vector3 check2 = CheckAngleIsTooBig(test2, test1);
+            Vector3 check1 = CheckAngleIsTooBig(veltJoint1, veltJoint2);
+            Vector3 check2 = CheckAngleIsTooBig(veltJoint2, veltJoint1);
             SetSubJoint();
-            Vector3 check3 = CheckAngleIsTooBig(test3, test4);
-            Vector3 check4 = CheckAngleIsTooBig(test4, test3);
 
 
             if(check2.z < 0)
             {
-                test4.position = test2.right * 0.5f * ((check2.x < 0)?-1f:1f) + test2.position + test2.forward * 0.5f;
-                test4.localEulerAngles = new Vector3(0f, ((check2.x < 0)?-90f:90f), 0f);
-                test4.gameObject.SetActive(true);
+                veltJoint4.position = veltJoint2.right * 0.5f * ((check2.x < 0)?-1f:1f) + veltJoint2.position + veltJoint2.forward * 0.5f;
+                veltJoint4.localEulerAngles = new Vector3(0f, ((check2.x < 0)?-90f:90f), 0f);
+                veltJoint4.gameObject.SetActive(true);
                 if(check1.z < 0)
                 {
-                    Test2(test1, test2);
-                    Test2(test4, test3);
+                    list1 = Test2(veltJoint1, veltJoint2);
+                    list4 = Test2(veltJoint4, veltJoint3);
                 }
                 else
                 {
-                    Test2(test1, test4);
-                    Test2(test4, test1);
+                    list1 = Test2(veltJoint1, veltJoint4);
+                    list4 = Test2(veltJoint4, veltJoint1);
                 }
             }
             else
             {
-                test4.gameObject.SetActive(false);
-                Test2(test1, test2);
+                veltJoint4.gameObject.SetActive(false);
+                list1 = Test2(veltJoint1, veltJoint2);
             }
             
             if(check1.z < 0)
             {
-                test3.position = test1.right * 0.5f * ((check1.x < 0)?-1f:1f) + test1.position + test1.forward * 0.5f;
-                test3.localEulerAngles = new Vector3(0f, ((check1.x < 0)?-90f:90f), 0f);
-                test3.gameObject.SetActive(true);
+                veltJoint3.position = veltJoint1.right * 0.5f * ((check1.x < 0)?-1f:1f) + veltJoint1.position + veltJoint1.forward * 0.5f;
+                veltJoint3.localEulerAngles = new Vector3(0f, ((check1.x < 0)?-90f:90f), 0f);
+                veltJoint3.gameObject.SetActive(true);
                 if(check2.z < 0)
                 {
-                    Test2(test3, test4);
-                    Test2(test2, test1);
+                    list2 = Test2(veltJoint2, veltJoint1);
+                    list3 = Test2(veltJoint3, veltJoint4);
                 }
                 else
                 {
-                    Test2(test3, test2);
-                    Test2(test2, test3);
+                    list2 = Test2(veltJoint2, veltJoint3);
+                    list3 = Test2(veltJoint3, veltJoint2);
                 }
             }
             else
             {
-                test3.gameObject.SetActive(false);
-                Test2(test2, test1);
+                veltJoint3.gameObject.SetActive(false);
+                list2 = Test2(veltJoint2, veltJoint1);
             }
         }
+    }
+    void OnDrawGizmos()
+    {
+#if UNITY_EDITOR
         
-        Gizmos.color = Color.red;
-        foreach (var item in list)
+        
+        
+        GetJoints();
+        list.Clear();
+        nomalizedPoints.Clear();
+        
+        list.AddRange(list1);
+        list.AddRange(list3);
+        list4.Reverse();
+        list2.Reverse();
+        list.AddRange(list4);
+        list.AddRange(list2);
+
+        nomalizedPoints.Add(veltJoint1.position);
+
+        float remainDistance = 0;
+        Vector3 beforeJoint = veltJoint1.position;
+        foreach (var joint in list)
+        {
+            remainDistance += Vector3.Distance(beforeJoint, joint);
+            for (int i = 1; i <= (int)(remainDistance / vertexDistance); i++)
+            {
+                nomalizedPoints.Add(Vector3.Lerp(beforeJoint, joint, ((vertexDistance * i) / remainDistance)));
+            }
+            remainDistance = remainDistance % vertexDistance;
+            beforeJoint = joint;
+        }
+        nomalizedPoints.Add(veltJoint2.position);
+        
+        if(nomalizedPoints.Count-1 < time)
+        {
+            time = 0f;
+        }
+        time += 0.1f;
+
+        Gizmos.color = Color.blue;
+        foreach (var item in nomalizedPoints)
         {
             Gizmos.DrawWireSphere(item, 0.07f);
         }
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(nomalizedPoints[(int)time], 0.07f);
+        
 #endif
     }
+    
+    float time = 0f;
     private void Building()
     {
         if(playerTool.curToolEnum == ToolEmum.Scanner)
