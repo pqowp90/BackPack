@@ -39,6 +39,8 @@ public class VeltBuildingTest : MonoBehaviour
     private List<Vector3> list4 = new List<Vector3>();
     [SerializeField]
     private List<Vector3> nomalizedPoints = new List<Vector3>();
+    [SerializeField]
+    private ConveyorVeltMesh conveyorVeltMesh;
 
     private void Start()
     {
@@ -275,6 +277,7 @@ public class VeltBuildingTest : MonoBehaviour
         }
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(nomalizedPoints[(int)time], 0.07f);
+        conveyorVeltMesh.MakeMeshData(nomalizedPoints, -veltJoint1.forward * 0.5f + veltJoint1.position, -veltJoint2.forward * 0.5f + veltJoint2.position);
         
 #endif
     }
