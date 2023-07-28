@@ -66,7 +66,7 @@ public class ConveyorVeltMesh : MonoBehaviour
         triangles.Clear();
         veltLineVectos = points;
 
-        Quaternion forward = Quaternion.LookRotation(veltLineVectos[0] - start, Vector3.up);
+        Quaternion forward = Quaternion.LookRotation(veltLineVectos[1] - start, Vector3.up);
 
         for (int i = 0; i < veltLineVectos.Count-1; i++)
         {
@@ -74,8 +74,10 @@ public class ConveyorVeltMesh : MonoBehaviour
             vertices.Add(veltLineVectos[i] + forward * (Vector3.right * width * -0.5f));
             verticesBottom.Add(veltLineVectos[i] + forward * (Vector3.right * width * 0.5f) + Vector3.down * height);
             verticesBottom.Add(veltLineVectos[i] + forward * (Vector3.right * width * -0.5f) + Vector3.down * height);
-            forward = Quaternion.LookRotation(veltLineVectos[i + 1] - veltLineVectos[i], Vector3.up);
+            if(i < veltLineVectos.Count-2)
+                forward = Quaternion.LookRotation(veltLineVectos[i + 2] - veltLineVectos[i], Vector3.up);
         }
+
 
         forward = Quaternion.LookRotation(end - veltLineVectos[veltLineVectos.Count-1], Vector3.up);
         

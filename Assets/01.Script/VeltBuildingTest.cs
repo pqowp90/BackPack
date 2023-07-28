@@ -60,7 +60,7 @@ public class VeltBuildingTest : MonoBehaviour
         var test2V = target2V;
  
         var test3V = test2V - (test1V + target1.forward * 0.5f);
-        test3V.y = 0f;
+        //test3V.y = 0f;
 
         test3V = Quaternion.Inverse(target1.rotation) * test3V;
         if(test3V.z < 0 )
@@ -183,6 +183,20 @@ public class VeltBuildingTest : MonoBehaviour
             Vector3 check1 = CheckAngleIsTooBig(veltJoint1, veltJoint2);
             Vector3 check2 = CheckAngleIsTooBig(veltJoint2, veltJoint1);
             SetSubJoint();
+
+            if(check1.z < 0)
+            {
+                check1 = CheckAngleIsTooBig(veltJoint1, veltJoint2);
+                check2 = CheckAngleIsTooBig(veltJoint2, veltJoint1);
+                SetSubJoint();
+            }
+            if(check2.z < 0)
+            {
+                check1 = CheckAngleIsTooBig(veltJoint1, veltJoint2);
+                check2 = CheckAngleIsTooBig(veltJoint2, veltJoint1);
+                SetSubJoint();
+            }
+
 
 
             if(check2.z < 0)
