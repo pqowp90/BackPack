@@ -1,12 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum FactoryType
-{
-    Combiner,
-    Foundry,
-    SteelWorks,
-}
+
 [System.Serializable]
 public class Recipe
 {
@@ -19,12 +14,18 @@ public class Recipe
     }
 }
 
+
 [CreateAssetMenu( fileName = "FactoryRecipe", menuName = "Factorys/FactoryRecipes" )]
 public class FactoryRecipesSO : ScriptableObject
 {
     public string recipeName;
     public FactoryType factoryType;
+    public int costTime;
     public List<Recipe> ingredients;
-    public int cost;
-    public Recipe result;
+    public List<Recipe> result;
+}
+[CreateAssetMenu( fileName = "FactoryRecipes", menuName = "Factorys/FactoryRecipesSOs" )]
+public class FactoryRecipeConstruct : ScriptableObject
+{
+    public List<FactoryRecipesSO> factoryRecipesSOs;
 }

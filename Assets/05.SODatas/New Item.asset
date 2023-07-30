@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f9945b6d26a11d4995bf1508e33270d, type: 3}
   m_Name: New Item
   m_EditorClassIdentifier: 
-  item_name: 
-  korian_name: 
+  item_name: Raw Iron
+  korian_name: "\uCCA0 \uC6D0\uC11D"
   item_ID: -1
   item_type: 0
   isStackable: 0

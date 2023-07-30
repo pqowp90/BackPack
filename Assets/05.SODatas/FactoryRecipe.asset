@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recipeName: 
   factoryType: 0
-  ingredients: []
-  cost: 0
+  costTime: 0
+  ingredients:
+  - item: {fileID: 11400000, guid: 9ee19a713beb45344af427a7f188a8fc, type: 2}
+    count: 1
   result:
-    item: {fileID: 0}
-    count: 0
+  - item: {fileID: 11400000, guid: 9ee19a713beb45344af427a7f188a8fc, type: 2}
+    count: 1

@@ -31,6 +31,7 @@ public class ConveyorVeltMesh : MonoBehaviour
     private List<Vector3> verticesBottom = new List<Vector3>();
     private List<int> triangles = new List<int>();
     private List<Vector3> veltLineVectos = new List<Vector3>();
+    private List<Vector2> veltUVs = new List<Vector2>();
     [SerializeField]
     private float width;
     [SerializeField]
@@ -39,6 +40,9 @@ public class ConveyorVeltMesh : MonoBehaviour
 
     [SerializeField]
     public float Y;
+
+    [SerializeField]
+    private int uvCount = 5;
 
     // Start is called before the first frame update
     public void Create()
@@ -64,6 +68,7 @@ public class ConveyorVeltMesh : MonoBehaviour
         vertices.Clear();
         verticesBottom.Clear();
         triangles.Clear();
+        veltUVs.Clear();
         veltLineVectos = points;
 
         Quaternion forward = Quaternion.LookRotation(veltLineVectos[1] - start, Vector3.up);
@@ -72,6 +77,8 @@ public class ConveyorVeltMesh : MonoBehaviour
         {
             vertices.Add(veltLineVectos[i] + forward * (Vector3.right * width * 0.5f));
             vertices.Add(veltLineVectos[i] + forward * (Vector3.right * width * -0.5f));
+            veltUVs.Add(new Vector2((i % 2 == 0)?0f:1f, 1f));
+            veltUVs.Add(new Vector2((i % 2 == 0)?0f:1f, 0f));
             verticesBottom.Add(veltLineVectos[i] + forward * (Vector3.right * width * 0.5f) + Vector3.down * height);
             verticesBottom.Add(veltLineVectos[i] + forward * (Vector3.right * width * -0.5f) + Vector3.down * height);
             if(i < veltLineVectos.Count-2)
@@ -83,22 +90,12 @@ public class ConveyorVeltMesh : MonoBehaviour
         
         vertices.Add(veltLineVectos[veltLineVectos.Count-1] + forward * (Vector3.right * width * 0.5f));
         vertices.Add(veltLineVectos[veltLineVectos.Count-1] + forward * (Vector3.right * width * -0.5f));
+        veltUVs.Add(new Vector2(1f, 1f));
+        veltUVs.Add(new Vector2(1f, 0f));
         verticesBottom.Add(veltLineVectos[veltLineVectos.Count-1] + forward * (Vector3.right * width * 0.5f) + Vector3.down * height);
         verticesBottom.Add(veltLineVectos[veltLineVectos.Count-1] + forward * (Vector3.right * width * -0.5f) + Vector3.down * height);
         
-        triangles.Add(0);
-        triangles.Add(vertices.Count);
-        triangles.Add(1);
-        triangles.Add(1);
-        triangles.Add(vertices.Count);
-        triangles.Add(vertices.Count + 1);
-
-        triangles.Add(vertices.Count - 2);
-        triangles.Add(vertices.Count - 1);
-        triangles.Add(vertices.Count + verticesBottom.Count - 2);
-        triangles.Add(vertices.Count + verticesBottom.Count - 2);
-        triangles.Add(vertices.Count - 1);
-        triangles.Add(vertices.Count + verticesBottom.Count - 1);
+        
 
         
 
@@ -111,6 +108,8 @@ public class ConveyorVeltMesh : MonoBehaviour
             triangles.Add(i-1);
             triangles.Add(i-2);
             triangles.Add(i);
+
+
 
         }
         for (int i = 1; i < verticesBottom.Count; i+=2)
@@ -145,6 +144,19 @@ public class ConveyorVeltMesh : MonoBehaviour
             triangles.Add(vertices.Count + i);
             triangles.Add(i);
         }
+        triangles.Add(0);
+        triangles.Add(vertices.Count);
+        triangles.Add(1);
+        triangles.Add(1);
+        triangles.Add(vertices.Count);
+        triangles.Add(vertices.Count + 1);
+
+        triangles.Add(vertices.Count - 2);
+        triangles.Add(vertices.Count - 1);
+        triangles.Add(vertices.Count + verticesBottom.Count - 2);
+        triangles.Add(vertices.Count + verticesBottom.Count - 2);
+        triangles.Add(vertices.Count - 1);
+        triangles.Add(vertices.Count + verticesBottom.Count - 1);
 
         
         if(mesh == null)
@@ -154,6 +166,9 @@ public class ConveyorVeltMesh : MonoBehaviour
         vertices.AddRange(verticesBottom);
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
+        veltUVs.AddRange(veltUVs);
+        mesh.uv = veltUVs.ToArray();
+        
         
         CreateMesh();
         // vertices = new Vector3[] {new Vector3(0,0,0), new Vector3(0,0,1), new Vector3(1,0,0), new Vector3(1,-1,1)};
