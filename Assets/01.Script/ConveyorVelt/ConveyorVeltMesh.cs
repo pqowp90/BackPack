@@ -32,6 +32,7 @@ public class ConveyorVeltMesh : MonoBehaviour
     private List<int> triangles = new List<int>();
     private List<Vector3> veltLineVectos = new List<Vector3>();
     private List<Vector2> veltUVs = new List<Vector2>();
+    private List<Vector2> veltUVsBottom = new List<Vector2>();
     [SerializeField]
     private float width;
     [SerializeField]
@@ -41,10 +42,6 @@ public class ConveyorVeltMesh : MonoBehaviour
     [SerializeField]
     public float Y;
 
-    [SerializeField]
-    private int uvCount = 5;
-
-    // Start is called before the first frame update
     public void Create()
     {
         //MakeMeshData();
@@ -69,6 +66,7 @@ public class ConveyorVeltMesh : MonoBehaviour
         verticesBottom.Clear();
         triangles.Clear();
         veltUVs.Clear();
+        veltUVsBottom.Clear();
         veltLineVectos = points;
 
         Quaternion forward = Quaternion.LookRotation(veltLineVectos[1] - start, Vector3.up);
@@ -77,8 +75,8 @@ public class ConveyorVeltMesh : MonoBehaviour
         {
             vertices.Add(veltLineVectos[i] + forward * (Vector3.right * width * 0.5f));
             vertices.Add(veltLineVectos[i] + forward * (Vector3.right * width * -0.5f));
-            veltUVs.Add(new Vector2((i % 2 == 0)?0f:1f, 1f));
-            veltUVs.Add(new Vector2((i % 2 == 0)?0f:1f, 0f));
+            veltUVs.Add(new Vector2(i, 0f));
+            veltUVs.Add(new Vector2(i, 1f));
             verticesBottom.Add(veltLineVectos[i] + forward * (Vector3.right * width * 0.5f) + Vector3.down * height);
             verticesBottom.Add(veltLineVectos[i] + forward * (Vector3.right * width * -0.5f) + Vector3.down * height);
             if(i < veltLineVectos.Count-2)
@@ -90,13 +88,13 @@ public class ConveyorVeltMesh : MonoBehaviour
         
         vertices.Add(veltLineVectos[veltLineVectos.Count-1] + forward * (Vector3.right * width * 0.5f));
         vertices.Add(veltLineVectos[veltLineVectos.Count-1] + forward * (Vector3.right * width * -0.5f));
-        veltUVs.Add(new Vector2(1f, 1f));
-        veltUVs.Add(new Vector2(1f, 0f));
+        veltUVs.Add(new Vector2(veltLineVectos.Count, 0f));
+        veltUVs.Add(new Vector2(veltLineVectos.Count, 1f));
         verticesBottom.Add(veltLineVectos[veltLineVectos.Count-1] + forward * (Vector3.right * width * 0.5f) + Vector3.down * height);
         verticesBottom.Add(veltLineVectos[veltLineVectos.Count-1] + forward * (Vector3.right * width * -0.5f) + Vector3.down * height);
         
         
-
+        
         
 
         for (int i = 1; i < vertices.Count; i+=2)
@@ -166,27 +164,25 @@ public class ConveyorVeltMesh : MonoBehaviour
         vertices.AddRange(verticesBottom);
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
-        veltUVs.AddRange(veltUVs);
+        foreach (var uv in veltUVs)
+        {
+            veltUVsBottom.Add(-uv);
+        }
+        veltUVs.AddRange(veltUVsBottom);
         mesh.uv = veltUVs.ToArray();
         
-        
         CreateMesh();
-        // vertices = new Vector3[] {new Vector3(0,0,0), new Vector3(0,0,1), new Vector3(1,0,0), new Vector3(1,-1,1)};
-        // triangles = new int[]{0, 1, 2, 2, 1, 3, 2, 3 ,0, 3, 1, 0};
     }
     void OnDrawGizmos()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         Gizmos.color = Color.green;
         foreach (var item in vertices)
         {
-            Gizmos.DrawWireSphere(item, 0.07f);
+            Gizmos.DrawWireSphere(item, 0.01f);
         }
-
-        
 #endif
     }
-    // Update is called once per frame
     void Update()
     {
         Create();
