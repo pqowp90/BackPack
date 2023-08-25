@@ -74,7 +74,7 @@ public class PlayerAnimation : MonoBehaviour
         legAnimator.SetTrigger("Jump");
     }
     private void Update() {
-        if(changeBlend <= 1)
+        if( changeBlend <= 1)
         {
             changeBlend += Time.deltaTime / changeDeley;
             handAnimator.SetFloat("ChangeBlend", changeBlend);
