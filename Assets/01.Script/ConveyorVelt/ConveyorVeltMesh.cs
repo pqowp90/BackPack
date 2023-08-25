@@ -69,29 +69,27 @@ public class ConveyorVeltMesh : MonoBehaviour
         veltUVsBottom.Clear();
         veltLineVectos = points;
 
+        float uvPersent = 0f;
+
         Quaternion forward = Quaternion.LookRotation(veltLineVectos[1] - start, Vector3.up);
 
-        for (int i = 0; i < veltLineVectos.Count-1; i++)
+        for (int i = 0; i < veltLineVectos.Count; i++)
         {
+            uvPersent = i / (float)(veltLineVectos.Count-1);
             vertices.Add(veltLineVectos[i] + forward * (Vector3.right * width * 0.5f));
             vertices.Add(veltLineVectos[i] + forward * (Vector3.right * width * -0.5f));
-            veltUVs.Add(new Vector2(i, 0f));
-            veltUVs.Add(new Vector2(i, 1f));
+            veltUVs.Add(new Vector2(0f, i));
+            veltUVs.Add(new Vector2(1f, i));
             verticesBottom.Add(veltLineVectos[i] + forward * (Vector3.right * width * 0.5f) + Vector3.down * height);
             verticesBottom.Add(veltLineVectos[i] + forward * (Vector3.right * width * -0.5f) + Vector3.down * height);
             if(i < veltLineVectos.Count-2)
                 forward = Quaternion.LookRotation(veltLineVectos[i + 2] - veltLineVectos[i], Vector3.up);
+            else
+                forward = Quaternion.LookRotation(end - veltLineVectos[veltLineVectos.Count-1], Vector3.up);
         }
 
 
-        forward = Quaternion.LookRotation(end - veltLineVectos[veltLineVectos.Count-1], Vector3.up);
         
-        vertices.Add(veltLineVectos[veltLineVectos.Count-1] + forward * (Vector3.right * width * 0.5f));
-        vertices.Add(veltLineVectos[veltLineVectos.Count-1] + forward * (Vector3.right * width * -0.5f));
-        veltUVs.Add(new Vector2(veltLineVectos.Count, 0f));
-        veltUVs.Add(new Vector2(veltLineVectos.Count, 1f));
-        verticesBottom.Add(veltLineVectos[veltLineVectos.Count-1] + forward * (Vector3.right * width * 0.5f) + Vector3.down * height);
-        verticesBottom.Add(veltLineVectos[veltLineVectos.Count-1] + forward * (Vector3.right * width * -0.5f) + Vector3.down * height);
         
         
         
@@ -168,6 +166,9 @@ public class ConveyorVeltMesh : MonoBehaviour
         {
             veltUVsBottom.Add(-uv);
         }
+        
+        
+
         veltUVs.AddRange(veltUVsBottom);
         mesh.uv = veltUVs.ToArray();
         
