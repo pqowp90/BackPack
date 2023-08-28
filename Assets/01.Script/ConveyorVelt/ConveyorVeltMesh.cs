@@ -26,13 +26,20 @@ public class ConveyorVeltMeshEditor : Editor
 [RequireComponent(typeof(MeshFilter))]
 public class ConveyorVeltMesh : MonoBehaviour
 {
-    Mesh mesh;
+    private Mesh mesh;
+    private MeshRenderer meshRenderer;
+    private MeshCollider meshCollider;
     private List<Vector3> vertices = new List<Vector3>();
     private List<Vector3> verticesBottom = new List<Vector3>();
     private List<int> triangles = new List<int>();
+    private List<int> triangles2 = new List<int>();
     private List<Vector3> veltLineVectos = new List<Vector3>();
     private List<Vector2> veltUVs = new List<Vector2>();
     private List<Vector2> veltUVsBottom = new List<Vector2>();
+    [SerializeField]
+    private Material[] mats;
+    [SerializeField]
+    private Material[] mats2;
     [SerializeField]
     private float width;
     [SerializeField]
@@ -44,27 +51,54 @@ public class ConveyorVeltMesh : MonoBehaviour
 
     public void Create()
     {
-        //MakeMeshData();
+        CreateMesh();
+        GetMyComponent();
+        meshRenderer.sharedMaterials = mats;
     }
 
     private void CreateMesh()
     {
         if(mesh == null)
-            mesh = GetComponent<MeshFilter>().sharedMesh;
+            mesh = GetComponent<MeshFilter>().mesh;
         //mesh.Clear();
-
+        
         mesh.RecalculateNormals();
         
+    }
+    private void GetMyComponent()
+    {
+        
+        if(meshRenderer == null)
+            meshRenderer = GetComponent<MeshRenderer>();
+        if(meshCollider == null){
+            meshCollider = GetComponent<MeshCollider>();
+            meshCollider.sharedMesh = mesh;
+        }
+    }
+    public void VeltForm(bool valid)
+    {
+        GetMyComponent();
+        if(valid)
+        {
+            meshRenderer.sharedMaterials = mats;
+        }
+        else
+        {
+            meshRenderer.sharedMaterials = mats2;
+        }
     }
 
     public void MakeMeshData(List<Vector3> points, Vector3 start, Vector3 end)
     {
+        GetMyComponent();
+
         if(points.Count < 2)
             return;
 
         vertices.Clear();
         verticesBottom.Clear();
         triangles.Clear();
+        triangles2.Clear();
         veltUVs.Clear();
         veltUVsBottom.Clear();
         veltLineVectos = points;
@@ -78,8 +112,10 @@ public class ConveyorVeltMesh : MonoBehaviour
             uvPersent = i / (float)(veltLineVectos.Count-1);
             vertices.Add(veltLineVectos[i] + forward * (Vector3.right * width * 0.5f));
             vertices.Add(veltLineVectos[i] + forward * (Vector3.right * width * -0.5f));
-            veltUVs.Add(new Vector2(0f, i));
-            veltUVs.Add(new Vector2(1f, i));
+            float uvi = i%2;
+            uvi = i;
+            veltUVs.Add(new Vector2(0f, uvi));
+            veltUVs.Add(new Vector2(1f, uvi));
             verticesBottom.Add(veltLineVectos[i] + forward * (Vector3.right * width * 0.5f) + Vector3.down * height);
             verticesBottom.Add(veltLineVectos[i] + forward * (Vector3.right * width * -0.5f) + Vector3.down * height);
             if(i < veltLineVectos.Count-2)
@@ -122,37 +158,37 @@ public class ConveyorVeltMesh : MonoBehaviour
         for (int i = 1; i < vertices.Count; i+=2)
         {
             if(i<3) continue;
-            triangles.Add(vertices.Count + i-3);
-            triangles.Add(i-3);
-            triangles.Add(vertices.Count + i-1);
-            triangles.Add(vertices.Count + i-1);
-            triangles.Add(i-3);
-            triangles.Add(i-1);
+            triangles2.Add(vertices.Count + i-3);
+            triangles2.Add(i-3);
+            triangles2.Add(vertices.Count + i-1);
+            triangles2.Add(vertices.Count + i-1);
+            triangles2.Add(i-3);
+            triangles2.Add(i-1);
         }
 
         for (int i = 1; i < vertices.Count; i+=2)
         {
             if(i<3) continue;
-            triangles.Add(vertices.Count + i-2);
-            triangles.Add(vertices.Count + i);
-            triangles.Add(i-2);
-            triangles.Add(i-2);
-            triangles.Add(vertices.Count + i);
-            triangles.Add(i);
+            triangles2.Add(vertices.Count + i-2);
+            triangles2.Add(vertices.Count + i);
+            triangles2.Add(i-2);
+            triangles2.Add(i-2);
+            triangles2.Add(vertices.Count + i);
+            triangles2.Add(i);
         }
-        triangles.Add(0);
-        triangles.Add(vertices.Count);
-        triangles.Add(1);
-        triangles.Add(1);
-        triangles.Add(vertices.Count);
-        triangles.Add(vertices.Count + 1);
+        triangles2.Add(0);
+        triangles2.Add(vertices.Count);
+        triangles2.Add(1);
+        triangles2.Add(1);
+        triangles2.Add(vertices.Count);
+        triangles2.Add(vertices.Count + 1);
 
-        triangles.Add(vertices.Count - 2);
-        triangles.Add(vertices.Count - 1);
-        triangles.Add(vertices.Count + verticesBottom.Count - 2);
-        triangles.Add(vertices.Count + verticesBottom.Count - 2);
-        triangles.Add(vertices.Count - 1);
-        triangles.Add(vertices.Count + verticesBottom.Count - 1);
+        triangles2.Add(vertices.Count - 2);
+        triangles2.Add(vertices.Count - 1);
+        triangles2.Add(vertices.Count + verticesBottom.Count - 2);
+        triangles2.Add(vertices.Count + verticesBottom.Count - 2);
+        triangles2.Add(vertices.Count - 1);
+        triangles2.Add(vertices.Count + verticesBottom.Count - 1);
 
         
         if(mesh == null)
@@ -160,16 +196,25 @@ public class ConveyorVeltMesh : MonoBehaviour
         if(mesh == null) return;
         mesh.Clear();
         vertices.AddRange(verticesBottom);
+        
+        
+        
+
+
         mesh.vertices = vertices.ToArray();
-        mesh.triangles = triangles.ToArray();
+        //mesh.triangles = triangles.ToArray();
         foreach (var uv in veltUVs)
         {
             veltUVsBottom.Add(-uv);
         }
         
-        
+        mesh.subMeshCount = 2;
+
+        mesh.SetTriangles(triangles, 0);
+        mesh.SetTriangles(triangles2, 1);
 
         veltUVs.AddRange(veltUVsBottom);
+        
         mesh.uv = veltUVs.ToArray();
         
         CreateMesh();

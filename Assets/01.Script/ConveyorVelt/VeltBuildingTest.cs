@@ -169,15 +169,15 @@ public class VeltBuildingTest : MonoBehaviour
                 veltJoint3.localEulerAngles = new Vector3(0f, ((check1.x < 0)?-90f:90f), 0f);
                 veltJoint3.gameObject.SetActive(true);
 
-                Test(veltJoint1, veltJoint3.position);
-                Test(veltJoint3, veltJoint2.position);
+                list1 = Test(veltJoint1, veltJoint3.position);
+                list3 = Test(veltJoint3, veltJoint2.position);
 
             }
             else
             {
                 veltJoint3.gameObject.SetActive(false);
 
-                Test(veltJoint1, veltJoint2.position);
+                list1 = Test(veltJoint1, veltJoint2.position);
             }
         }
         else
@@ -231,21 +231,31 @@ public class VeltBuildingTest : MonoBehaviour
                 list2 = Test2(veltJoint2, veltJoint1);
             }
 
-            bool isJoint3Active = veltJoint3.gameObject.activeSelf;
-            bool isJoint4Active = veltJoint4.gameObject.activeSelf;
-            Vector3 check3 = CheckAngleIsTooBig(isJoint3Active?veltJoint3:veltJoint1, isJoint4Active?veltJoint4:veltJoint2);
-            Vector3 check4 = CheckAngleIsTooBig(isJoint4Active?veltJoint4:veltJoint2, isJoint3Active?veltJoint3:veltJoint1);
-
-            if(Vector3.Distance(GetCenterPos(isJoint3Active?veltJoint3:veltJoint1), GetCenterPos(isJoint4Active?veltJoint4:veltJoint2)) < StandardDistance)
-            {
-                Debug.Log("벨트의 형태가 유효하지 않습니다.");
-            }
-
-            if(check3.z < 0 || check4.z < 0)
-            {
-                Debug.Log("벨트의 형태가 유효하지 않습니다.");
-            }
+            
         }
+        bool isJoint3Active = veltJoint3.gameObject.activeSelf;
+        bool isJoint4Active = veltJoint4.gameObject.activeSelf;
+        Vector3 check3 = CheckAngleIsTooBig(isJoint3Active?veltJoint3:veltJoint1, isJoint4Active?veltJoint4:veltJoint2);
+        Vector3 check4 = CheckAngleIsTooBig(isJoint4Active?veltJoint4:veltJoint2, isJoint3Active?veltJoint3:veltJoint1);
+        if(Vector3.Distance(GetCenterPos(isJoint3Active?veltJoint3:veltJoint1), GetCenterPos(isJoint4Active?veltJoint4:veltJoint2)) < StandardDistance * ((isRotated)?1f:0f))
+        {
+            Debug.Log("벨트의 형태가 유효하지 않습니다.");
+            conveyorVeltMesh.VeltForm(false);
+            return;
+        }
+        if(check3.z < 0 || check4.z < 0)
+        {
+            Debug.Log("벨트의 형태가 유효하지 않습니다.");
+            conveyorVeltMesh.VeltForm(false);
+            return;
+        }
+        if(angle == 0 && veltJoint1.forward == (veltJoint1.position - veltJoint2.position).normalized)
+        {
+            Debug.Log("벨트의 형태가 유효하지 않습니다.");
+            conveyorVeltMesh.VeltForm(false);
+            return;
+        }
+        conveyorVeltMesh.VeltForm(true);
     }
     private Vector3 GetCenterPos(Transform transform)
     {
