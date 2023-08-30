@@ -43,6 +43,13 @@ public class VeltBuildingTest : MonoBehaviour
     private ConveyorVeltMesh conveyorVeltMesh;
     private Vector3 check1;
     private Vector3 check2;
+    private enum InstallationStatus
+    {
+        None,
+        SelectFirstPoint,
+        SelectSecondPoint,
+        SelectHeight,
+    }
 
     private const float StandardDistance = 1;
 
@@ -239,7 +246,6 @@ public class VeltBuildingTest : MonoBehaviour
         Vector3 check4 = CheckAngleIsTooBig(isJoint4Active?veltJoint4:veltJoint2, isJoint3Active?veltJoint3:veltJoint1);
         if(Vector3.Distance(GetCenterPos(isJoint3Active?veltJoint3:veltJoint1), GetCenterPos(isJoint4Active?veltJoint4:veltJoint2)) < StandardDistance * ((isRotated)?1f:0f))
         {
-            Debug.Log("벨트의 형태가 유효하지 않습니다.");
             conveyorVeltMesh.VeltForm(false);
             return;
         }
@@ -247,19 +253,16 @@ public class VeltBuildingTest : MonoBehaviour
         {
             
 
-            Debug.Log("벨트의 형태가 유효하지 않습니다.");
             conveyorVeltMesh.VeltForm(false);
             return;
         }
         if(((CheckAngleIsTooBig(isJoint3Active?veltJoint3:veltJoint1, veltJoint2).z < 0)) && !isRotated)
         {
-            Debug.Log("벨트의 형태가 유효하지 않습니다.");
             conveyorVeltMesh.VeltForm(false);
             return;
         }
         if(angle == 0 && veltJoint1.forward == (veltJoint1.position - veltJoint2.position).normalized)
         {
-            Debug.Log("벨트의 형태가 유효하지 않습니다.");
             conveyorVeltMesh.VeltForm(false);
             return;
         }
@@ -275,6 +278,12 @@ public class VeltBuildingTest : MonoBehaviour
         
         
         
+        MakeMesh();
+        
+#endif
+    }
+    private void MakeMesh()
+    {
         GetJoints();
         list.Clear();
         nomalizedPoints.Clear();
@@ -318,8 +327,6 @@ public class VeltBuildingTest : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(nomalizedPoints[(int)time], 0.07f);
         conveyorVeltMesh.MakeMeshData(nomalizedPoints, -veltJoint1.forward * StandardDistance/2f + veltJoint1.position, -veltJoint2.forward * StandardDistance/2f + veltJoint2.position);
-        
-#endif
     }
     
     float time = 0f;

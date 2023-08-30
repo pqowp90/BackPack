@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof (MapGenerator))]
+#if UNITY_EDITOR
 public class MapGeneratorEditor : Editor
 {
     public override void OnInspectorGUI()
@@ -20,3 +21,4 @@ public class MapGeneratorEditor : Editor
         }
     }
 }
+#endif

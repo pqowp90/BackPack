@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+
+#if UNITY_EDITOR
 [CustomEditor(typeof(ConveyorVeltMesh))]
 public class ConveyorVeltMeshEditor : Editor
 {
@@ -22,10 +24,12 @@ public class ConveyorVeltMeshEditor : Editor
         }
     }
 }
+#endif
 
 [RequireComponent(typeof(MeshFilter))]
 public class ConveyorVeltMesh : MonoBehaviour
 {
+    private List<Vector3> veltLineVectos = new List<Vector3>();
     private Mesh mesh;
     private MeshRenderer meshRenderer;
     private MeshCollider meshCollider;
@@ -33,7 +37,6 @@ public class ConveyorVeltMesh : MonoBehaviour
     private List<Vector3> verticesBottom = new List<Vector3>();
     private List<int> triangles = new List<int>();
     private List<int> triangles2 = new List<int>();
-    private List<Vector3> veltLineVectos = new List<Vector3>();
     private List<Vector2> veltUVs = new List<Vector2>();
     private List<Vector2> veltUVsBottom = new List<Vector2>();
     [SerializeField]
