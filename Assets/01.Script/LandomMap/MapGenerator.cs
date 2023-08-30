@@ -6,7 +6,7 @@ using System;
 
 public class MapGenerator : MonoBehaviour
 {
-    public enum DrawMode { NoiseMap , colorMap };
+    public enum DrawMode { NoiseMap , colorMap, Mesh };
     public DrawMode drawMode;
 
     public int mapWidth;
@@ -20,6 +20,9 @@ public class MapGenerator : MonoBehaviour
 
     public int seed;
     public Vector2 offset;
+
+    public float meshHeightMultipier;
+    public AnimationCurve meshHeightCurve;   
 
     public bool autoUpdate;
 
@@ -42,13 +45,13 @@ public class MapGenerator : MonoBehaviour
         }
 
         MapDisplay disPlay = FindObjectOfType<MapDisplay>();
-        if(drawMode == DrawMode.NoiseMap)
+        if (drawMode == DrawMode.NoiseMap)
             disPlay.DrawTexture(TextureGenerator.TextureFromHeightMap(noiseMap));
-        else if(drawMode == DrawMode.colorMap)
-            disPlay.DrawTexture(TextureGenerator.TextureFromColorMap(colorMap,mapWidth,mapHeight));
-        {
+        else if (drawMode == DrawMode.colorMap)
+            disPlay.DrawTexture(TextureGenerator.TextureFromColorMap(colorMap, mapWidth, mapHeight));
+        else if (drawMode == DrawMode.Mesh)
+            disPlay.DrawMesh(MeshGenerator.GenerateTerrainMesh(noiseMap, meshHeightMultipier, meshHeightCurve), TextureGenerator.TextureFromColorMap(colorMap, mapWidth, mapHeight));
 
-        }
 
     }
     void OnValidate()
