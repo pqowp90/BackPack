@@ -243,7 +243,15 @@ public class VeltBuildingTest : MonoBehaviour
             conveyorVeltMesh.VeltForm(false);
             return;
         }
-        if(check3.z < 0 || check4.z < 0)
+        if(((check3.z < 0 && isJoint3Active) || (check4.z < 0 && isJoint4Active)) && isRotated)
+        {
+            
+
+            Debug.Log("벨트의 형태가 유효하지 않습니다.");
+            conveyorVeltMesh.VeltForm(false);
+            return;
+        }
+        if(((CheckAngleIsTooBig(isJoint3Active?veltJoint3:veltJoint1, veltJoint2).z < 0)) && !isRotated)
         {
             Debug.Log("벨트의 형태가 유효하지 않습니다.");
             conveyorVeltMesh.VeltForm(false);
@@ -279,6 +287,7 @@ public class VeltBuildingTest : MonoBehaviour
         list.AddRange(list2);
 
         nomalizedPoints.Add(veltJoint1.position);
+        list.Add(veltJoint2.position);
 
         float remainDistance = 0;
         Vector3 beforeJoint = veltJoint1.position;
@@ -287,7 +296,7 @@ public class VeltBuildingTest : MonoBehaviour
             remainDistance += Vector3.Distance(beforeJoint, joint);
             for (int i = 1; i <= (int)(remainDistance / vertexDistance); i++)
             {
-                if(Vector3.Distance(joint, veltJoint2.position) >= vertexDistance / 2f)
+                if(Vector3.Distance(beforeJoint, veltJoint2.position) >= vertexDistance / 2f)
                     nomalizedPoints.Add(Vector3.Lerp(beforeJoint, joint, ((vertexDistance * i) / remainDistance)));
             }
             remainDistance = remainDistance % vertexDistance;
