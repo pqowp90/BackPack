@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f25d413452c93e4ab3304e8e7a193b8, type: 3}
+  m_Name: GameTips
+  m_EditorClassIdentifier: 
+  <GameTips>k__BackingField:
+  - "\uAE40\uC138\uD604\uC740 \uC77C\uC744 \uC91C\uB098\uAC8C \uC548\uD569\uB2C8\uB2E4."
+  - "\uC2EC\uADDC\uC601\uC740 \uB85C\uC544\uB97C \uB9E8\uB0A0 \uC870\uC9D1\uB2C8\uB2E4."
+  - "\uAC8C\uC784\uD300\uC5D0 \uBB58 \uC4F8\uC9C0 \uC0DD\uAC01\uC911.."

@@ -1,0 +1,16 @@
+{
+  "name": "SceneLoader",
+  "rootNamespace": "",
+  "references": [
+    "GUID:04d6f6459660d3c47870dc8983a2017c"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

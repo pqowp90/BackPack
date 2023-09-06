@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class VeltBuildingTest : MonoBehaviour
 {
@@ -43,15 +44,20 @@ public class VeltBuildingTest : MonoBehaviour
     private ConveyorVeltMesh conveyorVeltMesh;
     private Vector3 check1;
     private Vector3 check2;
+    private GameObject curObject;
     private enum InstallationStatus
     {
         None,
         SelectFirstPoint,
+        SelectFirstHeight,
         SelectSecondPoint,
-        SelectHeight,
+        SelectSecondHeight,
     }
+    private InstallationStatus nowInstallationStat;
 
     private const float StandardDistance = 1;
+
+    public TextMeshProUGUI curStateUI;
 
     private void Start()
     {
@@ -61,6 +67,7 @@ public class VeltBuildingTest : MonoBehaviour
     private void Update() {
         
         Building();
+        curStateUI.text = nowInstallationStat.ToString();
     }
     private List<Vector3> Test(Transform target1, Vector3 target2V)
     {
@@ -275,7 +282,10 @@ public class VeltBuildingTest : MonoBehaviour
     void OnDrawGizmos()
     {
 #if UNITY_EDITOR
-        
+        if(!veltJoint1 || !veltJoint2 || !veltJoint3 || !veltJoint4 )
+        {
+            return;
+        }
         
         
         MakeMesh();
@@ -334,21 +344,128 @@ public class VeltBuildingTest : MonoBehaviour
     {
         if(playerTool.curToolEnum == ToolEmum.Scanner)
         {
-            veltRotate *= Quaternion.Euler(0, Input.GetAxis("Mouse ScrollWheel") * 150f, 0);
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+            if(nowInstallationStat == InstallationStatus.None)
+                nowInstallationStat = InstallationStatus.SelectFirstPoint;
+            VeltUpdate(nowInstallationStat);
+        }
+        else
+        {
+            nowInstallationStat = InstallationStatus.None;
+        }
+    }
+    private void VeltUpdate(InstallationStatus installationStatus)
+    {
+        switch (installationStatus)
+        {
+            case InstallationStatus.None:
+            NoneUpdate();
+            break;
+            case InstallationStatus.SelectFirstPoint:
+            SelectFirstPointUpdate();
+            break;
+            case InstallationStatus.SelectSecondPoint:
+            SelectSecondPointUpdate();
+            break;
+            case InstallationStatus.SelectFirstHeight:
+            SelectFirstHeightUpdate();
+            break;
+            case InstallationStatus.SelectSecondHeight:
+            SelectSecondHeightUpdate();
+            break;
+        }
+    }
+    private void NoneUpdate()
+    {
 
-            if (Physics.Raycast(ray, out hit, 10000, layerMask))
+    }
+    private void SelectFirstPointUpdate()
+    {
+        veltRotate *= Quaternion.Euler(0, Input.GetAxis("Mouse ScrollWheel") * 150f, 0);
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 10000, layerMask))
+        {
+            if(!previewObject)
             {
-                if(!previewObject)
-                {
-                    previewObject = PoolManager.Instantiate(previewBeltPrefab);
-                }
-                veltPos = hit.point;
-                previewObject.transform.position = Vector3.Lerp(previewObject.transform.position, veltPos, Time.deltaTime*17f);
-                previewObject.transform.rotation = veltRotate;
-                
+                previewObject = PoolManager.Instantiate(previewBeltPrefab);
             }
+            veltPos = hit.point;
+            previewObject.transform.position = Vector3.Lerp(previewObject.transform.position, veltPos, Time.deltaTime*17f);
+            previewObject.transform.rotation = veltRotate;
+            
+        }
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            curObject = PoolManager.Instantiate(beltPolesPrefab);
+            curObject.transform.position = previewObject.transform.position;
+            curObject.transform.rotation = previewObject.transform.rotation;
+            nowInstallationStat = InstallationStatus.SelectFirstHeight;
+            previewObject.SetActive(false);
+            PoolManager.Destroy(previewObject);
+            previewObject = null;
+        }
+    }
+    private void SelectSecondPointUpdate()
+    {
+        veltRotate *= Quaternion.Euler(0, Input.GetAxis("Mouse ScrollWheel") * 150f, 0);
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 10000, layerMask))
+        {
+            if(!previewObject)
+            {
+                previewObject = PoolManager.Instantiate(previewBeltPrefab);
+            }
+            veltPos = hit.point;
+            previewObject.transform.position = Vector3.Lerp(previewObject.transform.position, veltPos, Time.deltaTime*17f);
+            previewObject.transform.rotation = veltRotate;
+            
+        }
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            curObject = PoolManager.Instantiate(beltPolesPrefab);
+            curObject.transform.position = previewObject.transform.position;
+            curObject.transform.rotation = previewObject.transform.rotation;
+            nowInstallationStat = InstallationStatus.SelectSecondHeight;
+            previewObject.SetActive(false);
+            PoolManager.Destroy(previewObject);
+            previewObject = null;
+        }
+    }
+    private void SelectFirstHeightUpdate()
+    {
+        veltRotate *= Quaternion.Euler(0, Input.GetAxis("Mouse ScrollWheel") * 150f, 0);
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 10000, layerMask))
+        {
+            veltPos = hit.point;
+            curObject.transform.position = Vector3.Lerp(curObject.transform.position, veltPos, Time.deltaTime*17f);
+            curObject.transform.rotation = veltRotate;
+        }
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            curObject = null;
+            nowInstallationStat = InstallationStatus.SelectSecondPoint;
+        }
+    }
+    private void SelectSecondHeightUpdate()
+    {
+        veltRotate *= Quaternion.Euler(0, Input.GetAxis("Mouse ScrollWheel") * 150f, 0);
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 10000, layerMask))
+        {
+            veltPos = hit.point;
+            curObject.transform.position = Vector3.Lerp(curObject.transform.position, veltPos, Time.deltaTime*17f);
+            curObject.transform.rotation = veltRotate;
+        }
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            curObject = null;
+            nowInstallationStat = InstallationStatus.None;
         }
     }
 }
