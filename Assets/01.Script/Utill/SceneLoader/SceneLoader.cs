@@ -4,6 +4,7 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Cinemachine;
 
 public class SceneLoader : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class SceneLoader : MonoBehaviour
 
     [SerializeField] private GameTipSO gameTip;
     [SerializeField] private List<GameObject> characters = new List<GameObject>(); 
+    [SerializeField] private List<CinemachineVirtualCamera> Cameras = new List<CinemachineVirtualCamera>(); 
 
     private void Awake()
     {
@@ -56,7 +58,16 @@ public class SceneLoader : MonoBehaviour
         {
             item.SetActive(false);
         }
-        characters[Random.Range(0, characters.Count)].SetActive(true);
+        foreach (var item in Cameras)
+        {
+            item.gameObject.SetActive(false);
+        }
+        GameObject character = characters[Random.Range(0, characters.Count)];
+        GameObject camera = Cameras[Random.Range(0, characters.Count)].gameObject;
+        character.SetActive(true);
+        camera.SetActive(true);
+        character.transform.position = camera.transform.GetChild(0).position;
+
         canvasGroup.DOFade(1, transitionTime);
         yield return new WaitForSeconds(transitionTime);
     }
