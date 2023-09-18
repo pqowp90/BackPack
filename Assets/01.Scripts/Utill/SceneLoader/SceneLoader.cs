@@ -74,7 +74,7 @@ public class SceneLoader : MonoBehaviour
         character.transform.position = camera.transform.GetChild(1).position;
         character.transform.rotation = camera.transform.GetChild(1).rotation;
 
-        character.GetComponent<Animator>().SetFloat("Blend", Mathf.Round(Random.Range(0f, 8f)));
+        character.GetComponent<Animator>().SetFloat("Blend", Mathf.Round(Random.Range(0f, 7f)));
 
         canvasGroup.DOFade(1, transitionTime);
         yield return new WaitForSeconds(transitionTime);

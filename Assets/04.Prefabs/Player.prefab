@@ -11179,9 +11179,12 @@ MonoBehaviour:
   gravity: -9.81
   jumpHeight: 1
   myCamera: {fileID: 6239468865691205920}
-  sensitivity: 50
-  velocity: {x: 0, y: 0, z: 0}
+  sensitivity: 0.277
+  curVelocity: {x: 0, y: 0, z: 0}
+  addForce: {x: 0, y: 0, z: 0}
   isRunning: 0
+  resistance: 0.4
+  slopeSpeed: 1.1
 --- !u!143 &1853593292256626211
 CharacterController:
   m_ObjectHideFlags: 0
@@ -11203,7 +11206,7 @@ CharacterController:
   serializedVersion: 3
   m_Height: 2
   m_Radius: 0.24
-  m_SlopeLimit: 45
+  m_SlopeLimit: 60
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
