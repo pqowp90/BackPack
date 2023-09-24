@@ -346,12 +346,12 @@ public class VeltBuildingTest : MonoBehaviour
         {
             if(nowInstallationStat == InstallationStatus.None)
                 nowInstallationStat = InstallationStatus.SelectFirstPoint;
-            VeltUpdate(nowInstallationStat);
         }
         else
         {
             nowInstallationStat = InstallationStatus.None;
         }
+        VeltUpdate(nowInstallationStat);
     }
     private void VeltUpdate(InstallationStatus installationStatus)
     {
@@ -366,17 +366,17 @@ public class VeltBuildingTest : MonoBehaviour
             case InstallationStatus.SelectSecondPoint:
             SelectSecondPointUpdate();
             break;
-            case InstallationStatus.SelectFirstHeight:
-            SelectFirstHeightUpdate();
-            break;
-            case InstallationStatus.SelectSecondHeight:
-            SelectSecondHeightUpdate();
-            break;
+
         }
     }
     private void NoneUpdate()
     {
-
+        if(previewObject != null)
+        {
+            
+            PoolManager.Destroy(previewObject);
+            previewObject = null;
+        }
     }
     private void SelectFirstPointUpdate()
     {
@@ -389,6 +389,7 @@ public class VeltBuildingTest : MonoBehaviour
             if(!previewObject)
             {
                 previewObject = PoolManager.Instantiate(previewBeltPrefab);
+                previewObject.transform.position = veltPos;
             }
             veltPos = hit.point;
             previewObject.transform.position = Vector3.Lerp(previewObject.transform.position, veltPos, Time.deltaTime*17f);
@@ -401,7 +402,7 @@ public class VeltBuildingTest : MonoBehaviour
             curObject.transform.position = previewObject.transform.position;
             curObject.transform.rotation = previewObject.transform.rotation;
             nowInstallationStat = InstallationStatus.SelectFirstHeight;
-            previewObject.SetActive(false);
+
             PoolManager.Destroy(previewObject);
             previewObject = null;
         }
@@ -417,6 +418,7 @@ public class VeltBuildingTest : MonoBehaviour
             if(!previewObject)
             {
                 previewObject = PoolManager.Instantiate(previewBeltPrefab);
+                previewObject.transform.position = veltPos;
             }
             veltPos = hit.point;
             previewObject.transform.position = Vector3.Lerp(previewObject.transform.position, veltPos, Time.deltaTime*17f);
@@ -429,43 +431,10 @@ public class VeltBuildingTest : MonoBehaviour
             curObject.transform.position = previewObject.transform.position;
             curObject.transform.rotation = previewObject.transform.rotation;
             nowInstallationStat = InstallationStatus.SelectSecondHeight;
-            previewObject.SetActive(false);
+            
             PoolManager.Destroy(previewObject);
             previewObject = null;
         }
     }
-    private void SelectFirstHeightUpdate()
-    {
-        veltRotate *= Quaternion.Euler(0, Input.GetAxis("Mouse ScrollWheel") * 150f, 0);
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 10000, layerMask))
-        {
-            veltPos = hit.point;
-            curObject.transform.position = Vector3.Lerp(curObject.transform.position, veltPos, Time.deltaTime*17f);
-            curObject.transform.rotation = veltRotate;
-        }
-        if(Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            curObject = null;
-            nowInstallationStat = InstallationStatus.SelectSecondPoint;
-        }
-    }
-    private void SelectSecondHeightUpdate()
-    {
-        veltRotate *= Quaternion.Euler(0, Input.GetAxis("Mouse ScrollWheel") * 150f, 0);
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 10000, layerMask))
-        {
-            veltPos = hit.point;
-            curObject.transform.position = Vector3.Lerp(curObject.transform.position, veltPos, Time.deltaTime*17f);
-            curObject.transform.rotation = veltRotate;
-        }
-        if(Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            curObject = null;
-            nowInstallationStat = InstallationStatus.None;
-        }
-    }
+
 }

@@ -70,7 +70,6 @@ public class ConveyorVeltMesh : MonoBehaviour
     }
     private void GetMyComponent()
     {
-        
         if(meshRenderer == null)
             meshRenderer = GetComponent<MeshRenderer>();
         if(meshCollider == null){
@@ -93,8 +92,8 @@ public class ConveyorVeltMesh : MonoBehaviour
 
     public void MakeMeshData(List<Vector3> points, Vector3 start, Vector3 end)
     {
+        
         GetMyComponent();
-
         if(points.Count < 2)
             return;
 
@@ -221,6 +220,7 @@ public class ConveyorVeltMesh : MonoBehaviour
         mesh.uv = veltUVs.ToArray();
         
         CreateMesh();
+        meshCollider.sharedMesh = mesh;
     }
     void OnDrawGizmos()
     {
