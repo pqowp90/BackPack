@@ -30,7 +30,9 @@ public class PlayerMove : MonoBehaviour
 
     private bool willSlideOnSlope = true;
     private Vector3 downForce;
-
+    private void Awake() {
+        BuildingManager.Instance.SetCamera(myCamera);
+    }
     private void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -38,6 +40,7 @@ public class PlayerMove : MonoBehaviour
         // 컴포넌트를 초기화합니다.
         Cursor.lockState = CursorLockMode.Locked;
         // 마우스 커서를 잠금 상태로 설정하여 화면을 클릭해도 마우스가 움직이지 않도록 합니다.
+        
     }
 
     private void RotateMove()

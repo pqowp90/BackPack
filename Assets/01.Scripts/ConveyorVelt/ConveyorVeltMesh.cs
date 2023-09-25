@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Net.WebSockets;
 
 #if UNITY_EDITOR
 [CustomEditor(typeof(ConveyorVeltMesh))]
@@ -51,6 +52,20 @@ public class ConveyorVeltMesh : MonoBehaviour
 
     [SerializeField]
     public float Y;
+
+    public bool ShowPreview {
+        get
+        {
+            return meshRenderer.enabled;
+        } 
+        set
+        {
+            if(meshRenderer.enabled != value)
+                meshRenderer.enabled = value;
+            if(meshCollider.enabled != value)
+                meshCollider.enabled = value;
+        }
+    }
 
     public void Create()
     {
@@ -112,14 +127,14 @@ public class ConveyorVeltMesh : MonoBehaviour
         for (int i = 0; i < veltLineVectos.Count; i++)
         {
             uvPersent = i / (float)(veltLineVectos.Count-1);
-            vertices.Add(veltLineVectos[i] + forward * (Vector3.right * width * 0.5f));
-            vertices.Add(veltLineVectos[i] + forward * (Vector3.right * width * -0.5f));
+            vertices.Add(veltLineVectos[i] + forward * (Vector3.right * width * 0.5f) + Vector3.up * height);
+            vertices.Add(veltLineVectos[i] + forward * (Vector3.right * width * -0.5f) + Vector3.up * height);
             float uvi = i%2;
             uvi = i;
             veltUVs.Add(new Vector2(0f, uvi));
             veltUVs.Add(new Vector2(1f, uvi));
-            verticesBottom.Add(veltLineVectos[i] + forward * (Vector3.right * width * 0.5f) + Vector3.down * height);
-            verticesBottom.Add(veltLineVectos[i] + forward * (Vector3.right * width * -0.5f) + Vector3.down * height);
+            verticesBottom.Add(veltLineVectos[i] + forward * (Vector3.right * width * 0.5f));
+            verticesBottom.Add(veltLineVectos[i] + forward * (Vector3.right * width * -0.5f));
             if(i < veltLineVectos.Count-2)
                 forward = Quaternion.LookRotation(veltLineVectos[i + 2] - veltLineVectos[i], Vector3.up);
             else

@@ -7,5 +7,6 @@ public class MainMenuButtons : MonoBehaviour
     public void StartGame()
     {
         SceneLoader.LoadScene("FactoryScene");
+        GameManager.Instance.HiGameManager();
     }
 }

@@ -6,12 +6,12 @@ using TMPro;
 public class VeltBuildingTest : MonoBehaviour
 {
     public PlayerTool playerTool;
-    public Camera mainCamera;
     [SerializeField]
     private GameObject beltPolesPrefab;
     [SerializeField]
     private GameObject previewBeltPrefab;
-    private GameObject previewObject;
+    [SerializeField]
+    private GameObject previewObject = null;
     private Quaternion veltRotate = Quaternion.identity; 
     [SerializeField]
     private Transform veltJoint1;
@@ -24,6 +24,8 @@ public class VeltBuildingTest : MonoBehaviour
     private Vector3 veltPos = Vector3.zero;
     [SerializeField]
     private LayerMask layerMask;
+    [SerializeField]
+    private LayerMask Magnet;
     [SerializeField]
     private int pointByAngle = 10;
     [SerializeField]
@@ -57,11 +59,13 @@ public class VeltBuildingTest : MonoBehaviour
 
     private const float StandardDistance = 1;
 
+    private Camera mainCamera;
+    // test --------------------------------------------------------------
     public TextMeshProUGUI curStateUI;
 
     private void Start()
     {
-        mainCamera = Camera.main;
+        mainCamera = BuildingManager.Instance.FirstCamera;
         playerTool = GetComponent<PlayerTool>();
     }
     private void Update() {
@@ -342,6 +346,10 @@ public class VeltBuildingTest : MonoBehaviour
     float time = 0f;
     private void Building()
     {
+        if(!playerTool)
+        {
+            playerTool = GameManager.Instance.Player.GetComponent<PlayerTool>();
+        }
         if(playerTool.curToolEnum == ToolEmum.Scanner)
         {
             if(nowInstallationStat == InstallationStatus.None)
@@ -380,33 +388,41 @@ public class VeltBuildingTest : MonoBehaviour
     }
     private void SelectFirstPointUpdate()
     {
-        veltRotate *= Quaternion.Euler(0, Input.GetAxis("Mouse ScrollWheel") * 150f, 0);
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 10000, layerMask))
+        RaycastHit magnetRay;
+
+        Debug.DrawRay(ray.origin, ray.direction * 1000f, Color.blue, 0.0f);
+
+        if (Physics.SphereCast(ray, 0.5f, out magnetRay, 1000, Magnet))
         {
-            if(!previewObject)
-            {
-                previewObject = PoolManager.Instantiate(previewBeltPrefab);
-                previewObject.transform.position = veltPos;
-            }
-            veltPos = hit.point;
-            previewObject.transform.position = Vector3.Lerp(previewObject.transform.position, veltPos, Time.deltaTime*17f);
-            previewObject.transform.rotation = veltRotate;
+            conveyorVeltMesh.ShowPreview = true;
+            Debug.Log(magnetRay.collider);
+            BeltConnection beltConnection = magnetRay.collider.GetComponent<BeltConnection>();
+            if(!beltConnection) return;
+            veltPos = beltConnection.transform.position;
+
+
             
-        }
-        if(Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            curObject = PoolManager.Instantiate(beltPolesPrefab);
-            curObject.transform.position = previewObject.transform.position;
-            curObject.transform.rotation = previewObject.transform.rotation;
-            nowInstallationStat = InstallationStatus.SelectFirstHeight;
+            veltJoint1.position = veltPos;
 
-            PoolManager.Destroy(previewObject);
-            previewObject = null;
+
+            veltJoint2.position = veltJoint1.forward + veltJoint1.position;
+            isRotated = false;
+
+            if(Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                nowInstallationStat = InstallationStatus.SelectSecondPoint;
+                conveyorVeltMesh.ShowPreview = false;
+            }
         }
+        else
+        {
+            conveyorVeltMesh.ShowPreview = false;
+        }
+        
     }
+    // 0.3123f
     private void SelectSecondPointUpdate()
     {
         veltRotate *= Quaternion.Euler(0, Input.GetAxis("Mouse ScrollWheel") * 150f, 0);
@@ -415,15 +431,31 @@ public class VeltBuildingTest : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 10000, layerMask))
         {
+            conveyorVeltMesh.ShowPreview = true;
             if(!previewObject)
             {
                 previewObject = PoolManager.Instantiate(previewBeltPrefab);
                 previewObject.transform.position = veltPos;
             }
             veltPos = hit.point;
-            previewObject.transform.position = Vector3.Lerp(previewObject.transform.position, veltPos, Time.deltaTime*17f);
-            previewObject.transform.rotation = veltRotate;
+            Vector3 pos = Vector3.Lerp(previewObject.transform.position, veltPos, Time.deltaTime*17f);
+            previewObject.transform.position = pos;
+            veltJoint2.position = pos + Vector3.up * 0.3123f;
+            if(isRotated)
+            {
+                previewObject.transform.rotation = veltRotate;
+
+            }
+            else
+            {
+                previewObject.transform.rotation = veltJoint2.rotation;
+            }
             
+            
+        }
+        else
+        {
+            conveyorVeltMesh.ShowPreview = true;
         }
         if(Input.GetKeyDown(KeyCode.Mouse0))
         {
