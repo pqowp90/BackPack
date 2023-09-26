@@ -11408,7 +11408,7 @@ MonoBehaviour:
   camera: {fileID: 497440018}
   canvasGroup: {fileID: 851362981}
   tipText: {fileID: 800729825}
-  delayTime: 1
+  delayTime: 5
   transitionTime: 0.5
   gameTip: {fileID: 11400000, guid: fd771777b11daec409e099ed71f5b546, type: 2}
   characters:

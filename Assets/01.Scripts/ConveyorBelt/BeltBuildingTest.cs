@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class VeltBuildingTest : MonoBehaviour
+public class BeltBuildingTest : MonoBehaviour
 {
     public PlayerTool playerTool;
     [SerializeField]
@@ -12,16 +12,16 @@ public class VeltBuildingTest : MonoBehaviour
     private GameObject previewBeltPrefab;
     [SerializeField]
     private GameObject previewObject = null;
-    private Quaternion veltRotate = Quaternion.identity; 
+    private Quaternion beltRotate = Quaternion.identity; 
     [SerializeField]
-    private Transform veltJoint1;
+    private Transform beltJoint1;
     [SerializeField]
-    private Transform veltJoint2;
+    private Transform beltJoint2;
     [SerializeField]
-    private Transform veltJoint3;
+    private Transform beltJoint3;
     [SerializeField]
-    private Transform veltJoint4;
-    private Vector3 veltPos = Vector3.zero;
+    private Transform beltJoint4;
+    private Vector3 beltPos = Vector3.zero;
     [SerializeField]
     private LayerMask layerMask;
     [SerializeField]
@@ -43,7 +43,7 @@ public class VeltBuildingTest : MonoBehaviour
     [SerializeField]
     private List<Vector3> nomalizedPoints = new List<Vector3>();
     [SerializeField]
-    private ConveyorVeltMesh conveyorVeltMesh;
+    private ConveyorBeltMesh conveyorBeltMesh;
     private Vector3 check1;
     private Vector3 check2;
     private GameObject curObject;
@@ -51,15 +51,15 @@ public class VeltBuildingTest : MonoBehaviour
     {
         None,
         SelectFirstPoint,
-        SelectFirstHeight,
         SelectSecondPoint,
-        SelectSecondHeight,
+        SelectHeight,
     }
     private InstallationStatus nowInstallationStat;
 
     private const float StandardDistance = 1;
 
     private Camera mainCamera;
+    private Vector3 bottomPos;
     // test --------------------------------------------------------------
     public TextMeshProUGUI curStateUI;
 
@@ -72,6 +72,14 @@ public class VeltBuildingTest : MonoBehaviour
         
         Building();
         curStateUI.text = nowInstallationStat.ToString();
+
+        if(!beltJoint1 || !beltJoint2 || !beltJoint3 || !beltJoint4 )
+        {
+            return;
+        }
+        
+        
+        MakeMesh();
     }
     private List<Vector3> Test(Transform target1, Vector3 target2V)
     {
@@ -109,7 +117,7 @@ public class VeltBuildingTest : MonoBehaviour
             joints.Add(BezierCurve.QuadraticCurve(test1V, test1V + target1.forward * StandardDistance/2f, test1V + (target1.forward + test3V.normalized) * StandardDistance/2f , 
                 ((float)i / (float)count) * (test4V.magnitude + StandardDistance/2f)));
         }
-        veltJoint2.rotation = Quaternion.LookRotation(-test3V, Vector3.up);
+        beltJoint2.rotation = Quaternion.LookRotation(-test3V, Vector3.up);
 
         Debug.DrawLine(test1V + target1.forward * StandardDistance/2f, test1V + (target1.forward + test3V.normalized) * StandardDistance/2f , Color.blue, 0f);
         
@@ -149,7 +157,7 @@ public class VeltBuildingTest : MonoBehaviour
             joints.Add(BezierCurve.QuadraticCurve(test1V, test1V + target1.forward * StandardDistance/2f, test1V + (target1.forward + test3V.normalized) * StandardDistance/2f , 
                 ((float)i / (float)count) * (test4V.magnitude + StandardDistance/2f)));
         }
-        veltJoint2.rotation = Quaternion.Euler(new Vector3(0f, angle - 180f, 0f));
+        beltJoint2.rotation = Quaternion.Euler(new Vector3(0f, angle - 180f, 0f));
         
         Debug.DrawLine(test1V + target1.forward * StandardDistance/2f, test1V + (target1.forward + test3V.normalized) * StandardDistance/2f , Color.blue, 0f);
         return joints;
@@ -165,11 +173,11 @@ public class VeltBuildingTest : MonoBehaviour
     }
     private void SetSubJoint()
     {
-        veltJoint4.position = veltJoint2.right * StandardDistance/2f * ((check2.x < 0)?-StandardDistance:StandardDistance) + veltJoint2.position + veltJoint2.forward * StandardDistance/2f;
-        veltJoint4.localEulerAngles = new Vector3(0f, ((check2.x < 0)?-90f:90f), 0f);
+        beltJoint4.position = beltJoint2.right * StandardDistance/2f * ((check2.x < 0)?-StandardDistance:StandardDistance) + beltJoint2.position + beltJoint2.forward * StandardDistance/2f;
+        beltJoint4.localEulerAngles = new Vector3(0f, ((check2.x < 0)?-90f:90f), 0f);
 
-        veltJoint3.position = veltJoint1.right * StandardDistance/2f * ((check1.x < 0)?-StandardDistance:StandardDistance) + veltJoint1.position + veltJoint1.forward * StandardDistance/2f;
-        veltJoint3.localEulerAngles = new Vector3(0f, ((check1.x < 0)?-90f:90f), 0f);
+        beltJoint3.position = beltJoint1.right * StandardDistance/2f * ((check1.x < 0)?-StandardDistance:StandardDistance) + beltJoint1.position + beltJoint1.forward * StandardDistance/2f;
+        beltJoint3.localEulerAngles = new Vector3(0f, ((check1.x < 0)?-90f:90f), 0f);
     }
     private void GetJoints()
     {
@@ -180,104 +188,104 @@ public class VeltBuildingTest : MonoBehaviour
         list4.Clear();
         if(!isRotated)
         {
-            check1 = CheckAngleIsTooBig(veltJoint1, veltJoint2);
+            check1 = CheckAngleIsTooBig(beltJoint1, beltJoint2);
             if(check1.z < 0)
             {
-                veltJoint3.position = veltJoint1.right * StandardDistance/2f * ((check1.x < 0)?-StandardDistance:StandardDistance) + veltJoint1.position + veltJoint1.forward * StandardDistance/2f;
-                veltJoint3.localEulerAngles = new Vector3(0f, ((check1.x < 0)?-90f:90f), 0f);
-                veltJoint3.gameObject.SetActive(true);
+                beltJoint3.position = beltJoint1.right * StandardDistance/2f * ((check1.x < 0)?-StandardDistance:StandardDistance) + beltJoint1.position + beltJoint1.forward * StandardDistance/2f;
+                beltJoint3.localEulerAngles = new Vector3(0f, ((check1.x < 0)?-90f:90f), 0f);
+                beltJoint3.gameObject.SetActive(true);
 
-                list1 = Test(veltJoint1, veltJoint3.position);
-                list3 = Test(veltJoint3, veltJoint2.position);
+                list1 = Test(beltJoint1, beltJoint3.position);
+                list3 = Test(beltJoint3, beltJoint2.position);
 
             }
             else
             {
-                veltJoint3.gameObject.SetActive(false);
+                beltJoint3.gameObject.SetActive(false);
 
-                list1 = Test(veltJoint1, veltJoint2.position);
+                list1 = Test(beltJoint1, beltJoint2.position);
             }
         }
         else
         {
-            check1 = CheckAngleIsTooBig(veltJoint1, veltJoint2);
-            check2 = CheckAngleIsTooBig(veltJoint2, veltJoint1);
+            check1 = CheckAngleIsTooBig(beltJoint1, beltJoint2);
+            check2 = CheckAngleIsTooBig(beltJoint2, beltJoint1);
             SetSubJoint();
 
             
             if(check2.z < 0)
             {
-                veltJoint4.position = veltJoint2.right * StandardDistance/2f * ((check2.x < 0)?-StandardDistance:StandardDistance) + veltJoint2.position + veltJoint2.forward * StandardDistance/2f;
-                veltJoint4.localEulerAngles = new Vector3(0f, ((check2.x < 0)?-90f:90f), 0f);
-                veltJoint4.gameObject.SetActive(true);
+                beltJoint4.position = beltJoint2.right * StandardDistance/2f * ((check2.x < 0)?-StandardDistance:StandardDistance) + beltJoint2.position + beltJoint2.forward * StandardDistance/2f;
+                beltJoint4.localEulerAngles = new Vector3(0f, ((check2.x < 0)?-90f:90f), 0f);
+                beltJoint4.gameObject.SetActive(true);
                 if(check1.z < 0)
                 {
-                    list1 = Test2(veltJoint1, veltJoint2);
-                    list4 = Test2(veltJoint4, veltJoint3);
+                    list1 = Test2(beltJoint1, beltJoint2);
+                    list4 = Test2(beltJoint4, beltJoint3);
                 }
                 else
                 {
-                    list1 = Test2(veltJoint1, veltJoint4);
-                    list4 = Test2(veltJoint4, veltJoint1);
+                    list1 = Test2(beltJoint1, beltJoint4);
+                    list4 = Test2(beltJoint4, beltJoint1);
                 }
             }
             else
             {
-                veltJoint4.gameObject.SetActive(false);
-                list1 = Test2(veltJoint1, veltJoint2);
+                beltJoint4.gameObject.SetActive(false);
+                list1 = Test2(beltJoint1, beltJoint2);
             }
             
             if(check1.z < 0)
             {
-                veltJoint3.position = veltJoint1.right * StandardDistance/2f * ((check1.x < 0)?-StandardDistance:StandardDistance) + veltJoint1.position + veltJoint1.forward * StandardDistance/2f;
-                veltJoint3.localEulerAngles = new Vector3(0f, ((check1.x < 0)?-90f:90f), 0f);
-                veltJoint3.gameObject.SetActive(true);
+                beltJoint3.position = beltJoint1.right * StandardDistance/2f * ((check1.x < 0)?-StandardDistance:StandardDistance) + beltJoint1.position + beltJoint1.forward * StandardDistance/2f;
+                beltJoint3.localEulerAngles = new Vector3(0f, ((check1.x < 0)?-90f:90f), 0f);
+                beltJoint3.gameObject.SetActive(true);
                 if(check2.z < 0)
                 {
-                    list2 = Test2(veltJoint2, veltJoint1);
-                    list3 = Test2(veltJoint3, veltJoint4);
+                    list2 = Test2(beltJoint2, beltJoint1);
+                    list3 = Test2(beltJoint3, beltJoint4);
                 }
                 else
                 {
-                    list2 = Test2(veltJoint2, veltJoint3);
-                    list3 = Test2(veltJoint3, veltJoint2);
+                    list2 = Test2(beltJoint2, beltJoint3);
+                    list3 = Test2(beltJoint3, beltJoint2);
                 }
             }
             else
             {
-                veltJoint3.gameObject.SetActive(false);
-                list2 = Test2(veltJoint2, veltJoint1);
+                beltJoint3.gameObject.SetActive(false);
+                list2 = Test2(beltJoint2, beltJoint1);
             }
 
             
         }
-        bool isJoint3Active = veltJoint3.gameObject.activeSelf;
-        bool isJoint4Active = veltJoint4.gameObject.activeSelf;
-        Vector3 check3 = CheckAngleIsTooBig(isJoint3Active?veltJoint3:veltJoint1, isJoint4Active?veltJoint4:veltJoint2);
-        Vector3 check4 = CheckAngleIsTooBig(isJoint4Active?veltJoint4:veltJoint2, isJoint3Active?veltJoint3:veltJoint1);
-        if(Vector3.Distance(GetCenterPos(isJoint3Active?veltJoint3:veltJoint1), GetCenterPos(isJoint4Active?veltJoint4:veltJoint2)) < StandardDistance * ((isRotated)?1f:0f))
+        bool isJoint3Active = beltJoint3.gameObject.activeSelf;
+        bool isJoint4Active = beltJoint4.gameObject.activeSelf;
+        Vector3 check3 = CheckAngleIsTooBig(isJoint3Active?beltJoint3:beltJoint1, isJoint4Active?beltJoint4:beltJoint2);
+        Vector3 check4 = CheckAngleIsTooBig(isJoint4Active?beltJoint4:beltJoint2, isJoint3Active?beltJoint3:beltJoint1);
+        if(Vector3.Distance(GetCenterPos(isJoint3Active?beltJoint3:beltJoint1), GetCenterPos(isJoint4Active?beltJoint4:beltJoint2)) < StandardDistance * ((isRotated)?1f:0f))
         {
-            conveyorVeltMesh.VeltForm(false);
+            conveyorBeltMesh.BeltForm(false);
             return;
         }
         if(((check3.z < 0 && isJoint3Active) || (check4.z < 0 && isJoint4Active)) && isRotated)
         {
             
 
-            conveyorVeltMesh.VeltForm(false);
+            conveyorBeltMesh.BeltForm(false);
             return;
         }
-        if(((CheckAngleIsTooBig(isJoint3Active?veltJoint3:veltJoint1, veltJoint2).z < 0)) && !isRotated)
+        if(((CheckAngleIsTooBig(isJoint3Active?beltJoint3:beltJoint1, beltJoint2).z < 0)) && !isRotated)
         {
-            conveyorVeltMesh.VeltForm(false);
+            conveyorBeltMesh.BeltForm(false);
             return;
         }
-        if(angle == 0 && veltJoint1.forward == (veltJoint1.position - veltJoint2.position).normalized)
+        if(angle == 0 && beltJoint1.forward == (beltJoint1.position - beltJoint2.position).normalized)
         {
-            conveyorVeltMesh.VeltForm(false);
+            conveyorBeltMesh.BeltForm(false);
             return;
         }
-        conveyorVeltMesh.VeltForm(true);
+        conveyorBeltMesh.BeltForm(true);
     }
     private Vector3 GetCenterPos(Transform transform)
     {
@@ -286,13 +294,15 @@ public class VeltBuildingTest : MonoBehaviour
     void OnDrawGizmos()
     {
 #if UNITY_EDITOR
-        if(!veltJoint1 || !veltJoint2 || !veltJoint3 || !veltJoint4 )
+        Gizmos.color = Color.blue;
+        foreach (var item in nomalizedPoints)
         {
-            return;
+            Gizmos.DrawWireSphere(item + Vector3.up * conveyorBeltMesh.height, 0.07f);
         }
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(nomalizedPoints[(int)time] + Vector3.up * conveyorBeltMesh.height, 0.07f);
+
         
-        
-        MakeMesh();
         
 #endif
     }
@@ -309,23 +319,23 @@ public class VeltBuildingTest : MonoBehaviour
         list.AddRange(list4);
         list.AddRange(list2);
 
-        nomalizedPoints.Add(veltJoint1.position);
-        list.Add(veltJoint2.position);
+        nomalizedPoints.Add(beltJoint1.position);
+        list.Add(beltJoint2.position);
 
         float remainDistance = 0;
-        Vector3 beforeJoint = veltJoint1.position;
+        Vector3 beforeJoint = beltJoint1.position;
         foreach (var joint in list)
         {
             remainDistance += Vector3.Distance(beforeJoint, joint);
             for (int i = 1; i <= (int)(remainDistance / vertexDistance); i++)
             {
-                if(Vector3.Distance(beforeJoint, veltJoint2.position) >= vertexDistance / 2f)
+                if(Vector3.Distance(beforeJoint, beltJoint2.position) >= vertexDistance / 2f)
                     nomalizedPoints.Add(Vector3.Lerp(beforeJoint, joint, ((vertexDistance * i) / remainDistance)));
             }
             remainDistance = remainDistance % vertexDistance;
             beforeJoint = joint;
         }
-        nomalizedPoints.Add(veltJoint2.position);
+        nomalizedPoints.Add(beltJoint2.position);
         
         if(nomalizedPoints.Count-1 < time)
         {
@@ -333,14 +343,8 @@ public class VeltBuildingTest : MonoBehaviour
         }
         time += 0.1f;
 
-        Gizmos.color = Color.blue;
-        foreach (var item in nomalizedPoints)
-        {
-            Gizmos.DrawWireSphere(item, 0.07f);
-        }
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(nomalizedPoints[(int)time], 0.07f);
-        conveyorVeltMesh.MakeMeshData(nomalizedPoints, -veltJoint1.forward * StandardDistance/2f + veltJoint1.position, -veltJoint2.forward * StandardDistance/2f + veltJoint2.position);
+        
+        conveyorBeltMesh.MakeMeshData(nomalizedPoints, -beltJoint1.forward * StandardDistance/2f + beltJoint1.position, -beltJoint2.forward * StandardDistance/2f + beltJoint2.position);
     }
     
     float time = 0f;
@@ -359,9 +363,9 @@ public class VeltBuildingTest : MonoBehaviour
         {
             nowInstallationStat = InstallationStatus.None;
         }
-        VeltUpdate(nowInstallationStat);
+        BeltUpdate(nowInstallationStat);
     }
-    private void VeltUpdate(InstallationStatus installationStatus)
+    private void BeltUpdate(InstallationStatus installationStatus)
     {
         switch (installationStatus)
         {
@@ -374,12 +378,15 @@ public class VeltBuildingTest : MonoBehaviour
             case InstallationStatus.SelectSecondPoint:
             SelectSecondPointUpdate();
             break;
+            case InstallationStatus.SelectHeight:
+            SelectHeightUpdate();
+            break;
 
         }
     }
     private void NoneUpdate()
     {
-        conveyorVeltMesh.ShowPreview = false;
+        conveyorBeltMesh.ShowPreview = false;
         if(previewObject != null)
         {
             
@@ -399,74 +406,100 @@ public class VeltBuildingTest : MonoBehaviour
         {
             BeltConnection beltConnection = magnetRay.collider.GetComponent<BeltConnection>();
             if(!beltConnection) return;
-            conveyorVeltMesh.ShowPreview = true;
-            Debug.Log("ddddddd");
-            veltPos = beltConnection.transform.position;
-
+            conveyorBeltMesh.ShowPreview = true;
+            
+            
+            beltPos = beltConnection.transform.position;
 
             
-            veltJoint1.position = veltPos;
-            veltJoint1.rotation = beltConnection.transform.rotation;
+            
+            beltJoint1.position = beltPos;
+            beltJoint1.rotation = beltConnection.transform.rotation;
 
-            veltJoint2.position = veltJoint1.forward + veltJoint1.position;
+            beltJoint2.position = beltJoint1.forward * 1.1f + beltJoint1.position;
             isRotated = false;
 
-            if(Input.GetKeyDown(KeyCode.Mouse0))
+
+            if(Input.GetKeyDown(KeyCode.Mouse0) && conveyorBeltMesh.goodBelt)
             {
                 nowInstallationStat = InstallationStatus.SelectSecondPoint;
-                conveyorVeltMesh.ShowPreview = false;
+                conveyorBeltMesh.ShowPreview = false;
             }
         }
         else
         {
-            conveyorVeltMesh.ShowPreview = false;
+            conveyorBeltMesh.ShowPreview = false;
         }
         
     }
     // 0.3123f
     private void SelectSecondPointUpdate()
     {
-        veltRotate *= Quaternion.Euler(0, Input.GetAxis("Mouse ScrollWheel") * 150f, 0);
+        beltRotate *= Quaternion.Euler(0, Input.GetAxis("Mouse ScrollWheel") * 150f, 0);
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
+        if(Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")) > 0)
+        {
+            isRotated = true;
+        }
+
         if (Physics.Raycast(ray, out hit, 10000, layerMask))
         {
-            conveyorVeltMesh.ShowPreview = true;
+            conveyorBeltMesh.ShowPreview = true;
             if(!previewObject)
             {
                 previewObject = PoolManager.Instantiate(previewBeltPrefab);
-                previewObject.transform.position = veltPos;
+                previewObject.transform.position = beltPos;
             }
-            veltPos = hit.point;
-            Vector3 pos = Vector3.Lerp(previewObject.transform.position, veltPos, Time.deltaTime*17f);
+            beltPos = hit.point;
+            Vector3 pos = Vector3.Lerp(previewObject.transform.position, beltPos, Time.deltaTime*17f);
             previewObject.transform.position = pos;
-            veltJoint2.position = pos + Vector3.up * 0.3123f;
+            beltJoint2.position = pos + Vector3.up * 0.3123f;
+            
             if(isRotated)
             {
-                previewObject.transform.rotation = veltRotate;
-
+                previewObject.transform.rotation = beltRotate;
+                angle = beltRotate.eulerAngles.y;
             }
             else
             {
-                previewObject.transform.rotation = veltJoint2.rotation;
+                previewObject.transform.rotation = beltJoint2.rotation;
             }
             
             
         }
         else
         {
-            conveyorVeltMesh.ShowPreview = true;
+            conveyorBeltMesh.ShowPreview = true;
         }
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        if(Input.GetKeyDown(KeyCode.Mouse0) && conveyorBeltMesh.goodBelt)
         {
             curObject = PoolManager.Instantiate(beltPolesPrefab);
             curObject.transform.position = previewObject.transform.position;
             curObject.transform.rotation = previewObject.transform.rotation;
-            nowInstallationStat = InstallationStatus.SelectSecondHeight;
+            bottomPos = curObject.transform.position;
+            nowInstallationStat = InstallationStatus.SelectHeight;
             
             PoolManager.Destroy(previewObject);
             previewObject = null;
+        }
+    }
+    private void SelectHeightUpdate()
+    {
+        float distance = Vector3.Distance(bottomPos, mainCamera.transform.position);
+        float height = mainCamera.transform.position.y - bottomPos.y;
+        float angle = mainCamera.transform.localEulerAngles.x * Mathf.Deg2Rad;
+
+        float targetHeight = Mathf.Clamp(Mathf.Tan(-angle) * distance + height, 0, Mathf.Infinity);
+
+        curObject.transform.position = bottomPos + Vector3.up * targetHeight;
+        beltJoint2.position = curObject.transform.position + Vector3.up * 0.3123f;
+        
+
+        if(Input.GetKeyDown(KeyCode.Mouse0) && conveyorBeltMesh.goodBelt)
+        {
+            nowInstallationStat = InstallationStatus.None;
         }
     }
 
