@@ -2,35 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-using System.Net.WebSockets;
 
-#if UNITY_EDITOR
-[CustomEditor(typeof(ConveyorVeltMesh))]
-public class ConveyorVeltMeshEditor : Editor
-{
-    ConveyorVeltMesh conveyorVeltMesh;
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
-        if (GUILayout.Button("Generate Nodes"))
-        {
-            conveyorVeltMesh = (ConveyorVeltMesh)target;
-            conveyorVeltMesh.Create();
-        }
-        if(conveyorVeltMesh)
-        {
-            conveyorVeltMesh = (ConveyorVeltMesh)target;
-            conveyorVeltMesh.Create();
-        }
-    }
-}
-#endif
+
 
 [RequireComponent(typeof(MeshFilter))]
-public class ConveyorVeltMesh : MonoBehaviour
+public class ConveyorBeltMesh : MonoBehaviour
 {
-    private List<Vector3> veltLineVectos = new List<Vector3>();
+    private List<Vector3> beltLineVectos = new List<Vector3>();
     private Mesh mesh;
     private MeshRenderer meshRenderer;
     private MeshCollider meshCollider;
@@ -38,8 +16,8 @@ public class ConveyorVeltMesh : MonoBehaviour
     private List<Vector3> verticesBottom = new List<Vector3>();
     private List<int> triangles = new List<int>();
     private List<int> triangles2 = new List<int>();
-    private List<Vector2> veltUVs = new List<Vector2>();
-    private List<Vector2> veltUVsBottom = new List<Vector2>();
+    private List<Vector2> beltUVs = new List<Vector2>();
+    private List<Vector2> beltUVsBottom = new List<Vector2>();
     [SerializeField]
     private Material[] mats;
     [SerializeField]
@@ -47,11 +25,12 @@ public class ConveyorVeltMesh : MonoBehaviour
     [SerializeField]
     private float width;
     [SerializeField]
-    private float height;
+    public float height;
 
 
     [SerializeField]
     public float Y;
+    public bool goodBelt;
 
     public bool ShowPreview {
         get
@@ -60,9 +39,9 @@ public class ConveyorVeltMesh : MonoBehaviour
         } 
         set
         {
-            if(meshRenderer.enabled != value)
+            if(meshRenderer && meshRenderer.enabled != value)
                 meshRenderer.enabled = value;
-            if(meshCollider.enabled != value)
+            if(meshCollider && meshCollider.enabled != value)
                 meshCollider.enabled = value;
         }
     }
@@ -71,7 +50,6 @@ public class ConveyorVeltMesh : MonoBehaviour
     {
         CreateMesh();
         GetMyComponent();
-        meshRenderer.sharedMaterials = mats;
     }
 
     private void CreateMesh()
@@ -92,7 +70,7 @@ public class ConveyorVeltMesh : MonoBehaviour
             meshCollider.sharedMesh = mesh;
         }
     }
-    public void VeltForm(bool valid)
+    public void BeltForm(bool valid)
     {
         GetMyComponent();
         if(valid)
@@ -103,6 +81,7 @@ public class ConveyorVeltMesh : MonoBehaviour
         {
             meshRenderer.sharedMaterials = mats2;
         }
+        goodBelt = valid;
     }
 
     public void MakeMeshData(List<Vector3> points, Vector3 start, Vector3 end)
@@ -116,29 +95,29 @@ public class ConveyorVeltMesh : MonoBehaviour
         verticesBottom.Clear();
         triangles.Clear();
         triangles2.Clear();
-        veltUVs.Clear();
-        veltUVsBottom.Clear();
-        veltLineVectos = points;
+        beltUVs.Clear();
+        beltUVsBottom.Clear();
+        beltLineVectos = points;
 
         float uvPersent = 0f;
 
-        Quaternion forward = Quaternion.LookRotation(veltLineVectos[1] - start, Vector3.up);
+        Quaternion forward = Quaternion.LookRotation(beltLineVectos[1] - start, Vector3.up);
 
-        for (int i = 0; i < veltLineVectos.Count; i++)
+        for (int i = 0; i < beltLineVectos.Count; i++)
         {
-            uvPersent = i / (float)(veltLineVectos.Count-1);
-            vertices.Add(veltLineVectos[i] + forward * (Vector3.right * width * 0.5f) + Vector3.up * height);
-            vertices.Add(veltLineVectos[i] + forward * (Vector3.right * width * -0.5f) + Vector3.up * height);
+            uvPersent = i / (float)(beltLineVectos.Count-1);
+            vertices.Add(beltLineVectos[i] + forward * (Vector3.right * width * 0.5f) + Vector3.up * height);
+            vertices.Add(beltLineVectos[i] + forward * (Vector3.right * width * -0.5f) + Vector3.up * height);
             float uvi = i%2;
             uvi = i;
-            veltUVs.Add(new Vector2(0f, uvi));
-            veltUVs.Add(new Vector2(1f, uvi));
-            verticesBottom.Add(veltLineVectos[i] + forward * (Vector3.right * width * 0.5f));
-            verticesBottom.Add(veltLineVectos[i] + forward * (Vector3.right * width * -0.5f));
-            if(i < veltLineVectos.Count-2)
-                forward = Quaternion.LookRotation(veltLineVectos[i + 2] - veltLineVectos[i], Vector3.up);
+            beltUVs.Add(new Vector2(0f, uvi));
+            beltUVs.Add(new Vector2(1f, uvi));
+            verticesBottom.Add(beltLineVectos[i] + forward * (Vector3.right * width * 0.5f));
+            verticesBottom.Add(beltLineVectos[i] + forward * (Vector3.right * width * -0.5f));
+            if(i < beltLineVectos.Count-2)
+                forward = Quaternion.LookRotation(beltLineVectos[i + 2] - beltLineVectos[i], Vector3.up);
             else
-                forward = Quaternion.LookRotation(end - veltLineVectos[veltLineVectos.Count-1], Vector3.up);
+                forward = Quaternion.LookRotation(end - beltLineVectos[beltLineVectos.Count-1], Vector3.up);
         }
 
 
@@ -220,9 +199,9 @@ public class ConveyorVeltMesh : MonoBehaviour
 
         mesh.vertices = vertices.ToArray();
         //mesh.triangles = triangles.ToArray();
-        foreach (var uv in veltUVs)
+        foreach (var uv in beltUVs)
         {
-            veltUVsBottom.Add(-uv);
+            beltUVsBottom.Add(-uv);
         }
         
         mesh.subMeshCount = 2;
@@ -230,9 +209,9 @@ public class ConveyorVeltMesh : MonoBehaviour
         mesh.SetTriangles(triangles, 0);
         mesh.SetTriangles(triangles2, 1);
 
-        veltUVs.AddRange(veltUVsBottom);
+        beltUVs.AddRange(beltUVsBottom);
         
-        mesh.uv = veltUVs.ToArray();
+        mesh.uv = beltUVs.ToArray();
         
         CreateMesh();
         meshCollider.sharedMesh = mesh;
