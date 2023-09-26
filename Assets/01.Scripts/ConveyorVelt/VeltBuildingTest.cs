@@ -379,6 +379,7 @@ public class VeltBuildingTest : MonoBehaviour
     }
     private void NoneUpdate()
     {
+        conveyorVeltMesh.ShowPreview = false;
         if(previewObject != null)
         {
             
@@ -396,16 +397,16 @@ public class VeltBuildingTest : MonoBehaviour
 
         if (Physics.SphereCast(ray, 0.5f, out magnetRay, 1000, Magnet))
         {
-            conveyorVeltMesh.ShowPreview = true;
-            Debug.Log(magnetRay.collider);
             BeltConnection beltConnection = magnetRay.collider.GetComponent<BeltConnection>();
             if(!beltConnection) return;
+            conveyorVeltMesh.ShowPreview = true;
+            Debug.Log("ddddddd");
             veltPos = beltConnection.transform.position;
 
 
             
             veltJoint1.position = veltPos;
-
+            veltJoint1.rotation = beltConnection.transform.rotation;
 
             veltJoint2.position = veltJoint1.forward + veltJoint1.position;
             isRotated = false;

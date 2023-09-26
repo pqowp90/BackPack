@@ -2,30 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-using System.Net.WebSockets;
 
-#if UNITY_EDITOR
-[CustomEditor(typeof(ConveyorVeltMesh))]
-public class ConveyorVeltMeshEditor : Editor
-{
-    ConveyorVeltMesh conveyorVeltMesh;
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
-        if (GUILayout.Button("Generate Nodes"))
-        {
-            conveyorVeltMesh = (ConveyorVeltMesh)target;
-            conveyorVeltMesh.Create();
-        }
-        if(conveyorVeltMesh)
-        {
-            conveyorVeltMesh = (ConveyorVeltMesh)target;
-            conveyorVeltMesh.Create();
-        }
-    }
-}
-#endif
+
 
 [RequireComponent(typeof(MeshFilter))]
 public class ConveyorVeltMesh : MonoBehaviour
@@ -60,9 +38,9 @@ public class ConveyorVeltMesh : MonoBehaviour
         } 
         set
         {
-            if(meshRenderer.enabled != value)
+            if(meshRenderer && meshRenderer.enabled != value)
                 meshRenderer.enabled = value;
-            if(meshCollider.enabled != value)
+            if(meshCollider && meshCollider.enabled != value)
                 meshCollider.enabled = value;
         }
     }
