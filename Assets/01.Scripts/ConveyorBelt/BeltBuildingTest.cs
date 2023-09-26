@@ -47,6 +47,7 @@ public class BeltBuildingTest : MonoBehaviour
     private Vector3 check1;
     private Vector3 check2;
     private GameObject curObject;
+    private BeltConnection curBeltConnection;
     private enum InstallationStatus
     {
         None,
@@ -404,17 +405,17 @@ public class BeltBuildingTest : MonoBehaviour
 
         if (Physics.SphereCast(ray, 0.5f, out magnetRay, 1000, Magnet))
         {
-            BeltConnection beltConnection = magnetRay.collider.GetComponent<BeltConnection>();
-            if(!beltConnection) return;
+            curBeltConnection = magnetRay.collider.GetComponent<BeltConnection>();
+            if(!curBeltConnection) return;
             conveyorBeltMesh.ShowPreview = true;
             
             
-            beltPos = beltConnection.transform.position;
+            beltPos = curBeltConnection.transform.position;
 
             
             
             beltJoint1.position = beltPos;
-            beltJoint1.rotation = beltConnection.transform.rotation;
+            beltJoint1.rotation = curBeltConnection.transform.rotation;
 
             beltJoint2.position = beltJoint1.forward * 1.1f + beltJoint1.position;
             isRotated = false;
@@ -430,6 +431,7 @@ public class BeltBuildingTest : MonoBehaviour
         {
             conveyorBeltMesh.ShowPreview = false;
         }
+        curBeltConnection = null;
         
     }
     // 0.3123f
@@ -476,9 +478,11 @@ public class BeltBuildingTest : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Mouse0) && conveyorBeltMesh.goodBelt)
         {
             curObject = PoolManager.Instantiate(beltPolesPrefab);
+            curBeltConnection = curObject.GetComponentInChildren<BeltConnection>();
             curObject.transform.position = previewObject.transform.position;
             curObject.transform.rotation = previewObject.transform.rotation;
             bottomPos = curObject.transform.position;
+            curBeltConnection.SetPos(bottomPos);
             nowInstallationStat = InstallationStatus.SelectHeight;
             
             PoolManager.Destroy(previewObject);
@@ -495,6 +499,8 @@ public class BeltBuildingTest : MonoBehaviour
 
         curObject.transform.position = bottomPos + Vector3.up * targetHeight;
         beltJoint2.position = curObject.transform.position + Vector3.up * 0.3123f;
+
+        curBeltConnection.SetHeight(targetHeight);
         
 
         if(Input.GetKeyDown(KeyCode.Mouse0) && conveyorBeltMesh.goodBelt)
