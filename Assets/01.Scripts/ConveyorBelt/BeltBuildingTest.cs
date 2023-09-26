@@ -82,7 +82,7 @@ public class BeltBuildingTest : MonoBehaviour
         
         MakeMesh();
     }
-    private List<Vector3> Test(Transform target1, Vector3 target2V)
+    private List<Vector3> Test(Transform target1, Vector3 target2V, bool isY = true)
     {
         List<Vector3> joints = new List<Vector3>();
         if(!target1)
@@ -91,7 +91,9 @@ public class BeltBuildingTest : MonoBehaviour
         var test2V = target2V;
  
         var test3V = test2V - (test1V + target1.forward * StandardDistance/2f);
-        //test3V.y = 0f;
+
+        if(isY)
+            test3V.y = 0f;
 
         test3V = Quaternion.Inverse(target1.rotation) * test3V;
         if(test3V.z < 0 )
@@ -115,8 +117,8 @@ public class BeltBuildingTest : MonoBehaviour
 
         for (int i = 0; i <= count; i++)
         {
-            joints.Add(BezierCurve.QuadraticCurve(test1V, test1V + target1.forward * StandardDistance/2f, test1V + (target1.forward + test3V.normalized) * StandardDistance/2f , 
-                ((float)i / (float)count) * (test4V.magnitude + StandardDistance/2f)));
+            joints.Add(BezierCurve.QuadraticCurve(test1V, test1V + target1.forward * StandardDistance / 2f, test1V + (target1.forward + test3V.normalized) * StandardDistance / 2f,
+                ((float)i / (float)count) * (test4V.magnitude + StandardDistance / 2f)));
         }
         beltJoint2.rotation = Quaternion.LookRotation(-test3V, Vector3.up);
 
@@ -125,7 +127,7 @@ public class BeltBuildingTest : MonoBehaviour
         return joints;
     }
     
-    private List<Vector3> Test2(Transform target1, Transform target2)
+    private List<Vector3> Test2(Transform target1, Transform target2, bool isY = true)
     {
         List<Vector3> joints = new List<Vector3>();
         if(!target1 || !target2)
@@ -134,7 +136,9 @@ public class BeltBuildingTest : MonoBehaviour
         var test2V = target2.position + target2.forward * StandardDistance/2f;
  
         var test3V = test2V - (test1V + target1.forward * StandardDistance/2f);
-        test3V.y = 0f;
+
+        if(isY)
+            test3V.y = 0f;
 
         var test4V = Vector3.ClampMagnitude(test3V, StandardDistance/2f);
 
@@ -166,7 +170,7 @@ public class BeltBuildingTest : MonoBehaviour
     private Vector3 CheckAngleIsTooBig(Transform target1, Transform target2)
     {
         var test3V = GetCenterPos(target2) - GetCenterPos(target1);
-        test3V.y = 0f;
+        //test3V.y = 0f;
 
         test3V = Quaternion.Inverse(target1.rotation) * test3V;
 
@@ -197,14 +201,16 @@ public class BeltBuildingTest : MonoBehaviour
                 beltJoint3.gameObject.SetActive(true);
 
                 list1 = Test(beltJoint1, beltJoint3.position);
-                list3 = Test(beltJoint3, beltJoint2.position);
+                list3 = Test(beltJoint3, beltJoint2.position, false);
+                //list2 = Test(beltJoint2, beltJoint3.position, false);
 
             }
             else
             {
                 beltJoint3.gameObject.SetActive(false);
 
-                list1 = Test(beltJoint1, beltJoint2.position);
+                list1 = Test(beltJoint1, beltJoint2.position, false);
+                //list2 = Test(beltJoint2, beltJoint1.position, false);
             }
         }
         else
@@ -222,18 +228,26 @@ public class BeltBuildingTest : MonoBehaviour
                 if(check1.z < 0)
                 {
                     list1 = Test2(beltJoint1, beltJoint2);
-                    list4 = Test2(beltJoint4, beltJoint3);
+                    list4 = Test2(beltJoint4, beltJoint3, false);
                 }
                 else
                 {
-                    list1 = Test2(beltJoint1, beltJoint4);
-                    list4 = Test2(beltJoint4, beltJoint1);
+                    list1 = Test2(beltJoint1, beltJoint4, false);
+                    list4 = Test2(beltJoint4, beltJoint1, false);
                 }
             }
             else
             {
                 beltJoint4.gameObject.SetActive(false);
-                list1 = Test2(beltJoint1, beltJoint2);
+                
+                if (check1.z < 0)
+                {
+                    list1 = Test2(beltJoint1, beltJoint2);
+                }
+                else
+                {
+                    list1 = Test2(beltJoint1, beltJoint2, false);
+                }
             }
             
             if(check1.z < 0)
@@ -244,19 +258,27 @@ public class BeltBuildingTest : MonoBehaviour
                 if(check2.z < 0)
                 {
                     list2 = Test2(beltJoint2, beltJoint1);
-                    list3 = Test2(beltJoint3, beltJoint4);
+                    list3 = Test2(beltJoint3, beltJoint4, false);
                 }
                 else
                 {
-                    list2 = Test2(beltJoint2, beltJoint3);
-                    list3 = Test2(beltJoint3, beltJoint2);
+                    list2 = Test2(beltJoint2, beltJoint3, false);
+                    list3 = Test2(beltJoint3, beltJoint2, false);
                 }
             }
             else
             {
                 beltJoint3.gameObject.SetActive(false);
-                list2 = Test2(beltJoint2, beltJoint1);
-            }
+                
+                if (check2.z < 0)
+                {
+                    list2 = Test2(beltJoint2, beltJoint1);
+                }
+                else
+                {
+                    list2 = Test2(beltJoint2, beltJoint1, false);
+                }
+             }
 
             
         }
