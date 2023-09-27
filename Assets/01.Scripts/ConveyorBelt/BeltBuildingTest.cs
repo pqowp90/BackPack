@@ -11,6 +11,8 @@ public class BeltBuildingTest : MonoBehaviour
     [SerializeField]
     private GameObject previewBeltPrefab;
     [SerializeField]
+    private GameObject beltMeshPrefab;
+    [SerializeField]
     private GameObject previewObject = null;
     private Quaternion beltRotate = Quaternion.identity; 
     [SerializeField]
@@ -499,16 +501,10 @@ public class BeltBuildingTest : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.Mouse0) && conveyorBeltMesh.goodBelt)
         {
-            curObject = PoolManager.Instantiate(beltPolesPrefab);
-            curBeltConnection = curObject.GetComponentInChildren<BeltConnection>();
-            curObject.transform.position = previewObject.transform.position;
-            curObject.transform.rotation = previewObject.transform.rotation;
-            bottomPos = curObject.transform.position;
+            curBeltConnection = previewObject.GetComponentInChildren<BeltConnection>();
+            bottomPos = previewObject.transform.position;
             curBeltConnection.SetPos(bottomPos);
-            nowInstallationStat = InstallationStatus.SelectHeight;
-            
-            PoolManager.Destroy(previewObject);
-            previewObject = null;
+            nowInstallationStat = InstallationStatus.SelectHeight;            
         }
     }
     private void SelectHeightUpdate()
@@ -519,15 +515,28 @@ public class BeltBuildingTest : MonoBehaviour
 
         float targetHeight = Mathf.Clamp(Mathf.Tan(-angle) * distance + height, 0, Mathf.Infinity);
 
-        curObject.transform.position = bottomPos + Vector3.up * targetHeight;
-        beltJoint2.position = curObject.transform.position + Vector3.up * 0.3123f;
+        previewObject.transform.position = bottomPos + Vector3.up * targetHeight;
+        beltJoint2.position = previewObject.transform.position + Vector3.up * 0.3123f;
 
         curBeltConnection.SetHeight(targetHeight);
         
 
         if(Input.GetKeyDown(KeyCode.Mouse0) && conveyorBeltMesh.goodBelt)
         {
+            var previewBeltConnection = curBeltConnection;
+            curObject = PoolManager.Instantiate(beltPolesPrefab);
+            curObject.transform.position = previewObject.transform.position;
+            curObject.transform.rotation = previewObject.transform.rotation;
+            curBeltConnection = curObject.GetComponentInChildren<BeltConnection>();
+            curBeltConnection.SetPos(bottomPos);
+            curBeltConnection.SetHeight(targetHeight);
+            
             nowInstallationStat = InstallationStatus.None;
+
+            ConveyorBeltMesh newBeltMesh = PoolManager.Instantiate(beltMeshPrefab).GetComponentInChildren<ConveyorBeltMesh>();
+
+            newBeltMesh.MakeMeshData(nomalizedPoints, -beltJoint1.forward * StandardDistance/2f + beltJoint1.position, -beltJoint2.forward * StandardDistance/2f + beltJoint2.position);
+            newBeltMesh.ShowPreview = true;
         }
     }
 

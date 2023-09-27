@@ -88,6 +88,7 @@ public class ConveyorBeltMesh : MonoBehaviour
     {
         
         GetMyComponent();
+        CreateMesh();
         if(points.Count < 2)
             return;
 
@@ -120,13 +121,6 @@ public class ConveyorBeltMesh : MonoBehaviour
                 forward = Quaternion.LookRotation(end - beltLineVectos[beltLineVectos.Count-1], Vector3.up);
         }
 
-
-        
-        
-        
-        
-        
-
         for (int i = 1; i < vertices.Count; i+=2)
         {
             if(i<3) continue;
@@ -136,9 +130,6 @@ public class ConveyorBeltMesh : MonoBehaviour
             triangles.Add(i-1);
             triangles.Add(i-2);
             triangles.Add(i);
-
-
-
         }
         for (int i = 1; i < verticesBottom.Count; i+=2)
         {
@@ -213,8 +204,9 @@ public class ConveyorBeltMesh : MonoBehaviour
         
         mesh.uv = beltUVs.ToArray();
         
-        CreateMesh();
+        //CreateMesh();
         meshCollider.sharedMesh = mesh;
+        Create();
     }
     void OnDrawGizmos()
     {
@@ -228,6 +220,6 @@ public class ConveyorBeltMesh : MonoBehaviour
     }
     void Update()
     {
-        Create();
+        //Create();
     }
 }
