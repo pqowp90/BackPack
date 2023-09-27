@@ -17,4 +17,4 @@ MonoBehaviour:
   health: 10
   speed: 10
   damage: 10
-  attackRange: 5
+  attackRange: 1
