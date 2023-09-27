@@ -10,7 +10,7 @@ public class EnemyManager : MonoSingleton<EnemyManager>
 
     public void SpawnEnemy(Enemy enemy, Vector3 position)
     {
-        var enemyObject = Instantiate(enemy);
+        var enemyObject = Instantiate(enemy.Data.prefab).GetComponent<Enemy>();
         enemyObject.transform.position = position;
         enemyObject.transform.rotation = Quaternion.identity;
         enemyObject.transform.SetParent(enemyParent);

@@ -6,7 +6,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Wave", menuName = "Wave/Wave")]
 public class WaveSO : ScriptableObject
 {  
-    [Header("Night: 소환할 적 리스트")]
     [Tooltip("소환할 적 SO와 마리 수")]
     public List<EnemySpawnInfo> enemySpawnList = new List<EnemySpawnInfo>();
     public int EnemySpawnCount

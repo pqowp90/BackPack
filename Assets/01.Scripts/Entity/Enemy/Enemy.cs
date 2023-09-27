@@ -17,7 +17,6 @@ public sealed class Enemy : Entity, IEnemy, IDamageable
     [field: SerializeField] public UnityEvent<float> OnDamageTaken { get; set; }
     #endregion
 
-    private Animator _animator;
     private Rigidbody _rigidbody;
     private Transform _transform;
 
@@ -25,7 +24,6 @@ public sealed class Enemy : Entity, IEnemy, IDamageable
     {
         Type = EntityType.Enemy;
         _rigidbody = GetComponent<Rigidbody>();
-        _animator = GetComponentInChildren<Animator>();
         _transform = transform;
     }
 
@@ -64,6 +62,8 @@ public sealed class Enemy : Entity, IEnemy, IDamageable
             target = entity;
         }
 
+        target = FindObjectOfType<PlayerMove>().transform.GetComponent<Entity>();
+
         if (target == null) return;
         targetPosition = target!.Collider.ClosestPoint(_transform.position);
     }
@@ -76,17 +76,13 @@ public sealed class Enemy : Entity, IEnemy, IDamageable
         if (target == null) FindTarget();
 
         float length = Vector3.Distance(transform.position, targetPosition);
+        if (length <= Data.attackRange)
+        {
+            Attack();
+            return;
+        }
 
-        if(length <= Data.attackRange)
-        {
-            _animator.SetBool("Attack", true);
-        }
-        else
-        {
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, Data.speed * Time.deltaTime);
-            _animator.SetBool("Attack", false);
-        }
-            
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, Data.speed * Time.deltaTime);
     }
 
     public void TakeDamage(float damage)

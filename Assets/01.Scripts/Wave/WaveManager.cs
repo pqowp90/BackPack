@@ -42,22 +42,6 @@ public class WaveManager : MonoSingleton<WaveManager>
         if(CurrentWave != null) SpawnTimer();
     }
 
-    private void OnDrawGizmos()
-    {
-        UpdateWaveRange();
-
-        foreach (var waveRange in WaveRanges)
-        {
-            var position = player.position;
-
-            Gizmos.color = Color.white;
-            Gizmos.DrawLine(position, new Vector3(waveRange.position.x, waveRange.position.y, position.z));
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireCube(new Vector3(waveRange.position.x, waveRange.position.y, waveRange.position.z),
-                new Vector3(waveRange.size.x, waveRange.size.y, waveRange.size.z));
-        }
-    }
-
     private WaveRange[] UpdateWaveRange()
     {
         var position = player.position;
