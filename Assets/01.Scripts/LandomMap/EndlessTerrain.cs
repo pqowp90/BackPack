@@ -1,4 +1,4 @@
-using System;
+    using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +17,7 @@ public class EndlessTerrain : MonoBehaviour
     float chunkSize;
     int chunkVisibleInViewDst;
     Dictionary<Vector2, TerrainChunk> terrainDicitionary = new Dictionary<Vector2, TerrainChunk>();
-    List<TerrainChunk> terrainChunksVisbleLastUpdate = new List<TerrainChunk>();
+    static List<TerrainChunk> terrainChunksVisbleLastUpdate = new List<TerrainChunk>();
 
     private void Start()
     {
@@ -55,10 +55,6 @@ public class EndlessTerrain : MonoBehaviour
                 if (terrainDicitionary.ContainsKey(viewChunkCoord))
                 {
                     terrainDicitionary[viewChunkCoord].UpdateTerrainChunk();
-                    if (terrainDicitionary[viewChunkCoord].IsVisible())
-                    {
-                        terrainChunksVisbleLastUpdate.Add(terrainDicitionary[viewChunkCoord]);
-                    }
                 }
                 else
                 {
@@ -156,6 +152,7 @@ public class EndlessTerrain : MonoBehaviour
                             lodMesh.RequestMesh(mapData);
                         }
                     }
+                    terrainChunksVisbleLastUpdate.Add(this);
                 }
 
                 SetVisible(visible);
