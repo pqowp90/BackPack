@@ -20,6 +20,7 @@ public class GameManager : MonoSingleton<GameManager>
         if(scene.name == "FactoryScene")
         {
             Player = Instantiate(playerPrefab);
+            Player.transform.position = new Vector3(0f,0f,0f);
         }
     }
     public void HiGameManager()

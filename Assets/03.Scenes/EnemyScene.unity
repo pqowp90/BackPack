@@ -15171,7 +15171,7 @@ MonoBehaviour:
   gravity: -9.81
   jumpHeight: 1
   myCamera: {fileID: 261938863}
-  sensitivity: 50
+  sensitivity: 0.452
   curVelocity: {x: 0, y: 0, z: 0}
   addForce: {x: 0, y: 0, z: 0}
   isRunning: 0
