@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class BeltBuildingTest : MonoBehaviour
 {
@@ -204,7 +205,8 @@ public class BeltBuildingTest : MonoBehaviour
 
                 list1 = Test(beltJoint1, beltJoint3.position);
                 list3 = Test(beltJoint3, beltJoint2.position, false);
-                //list2 = Test(beltJoint2, beltJoint3.position, false);
+                if(Mathf.Abs(beltJoint1.position.y - beltJoint2.position.y) > 0.2f)
+                    list2 = Test2(beltJoint2, beltJoint3, false);
 
             }
             else
@@ -212,7 +214,8 @@ public class BeltBuildingTest : MonoBehaviour
                 beltJoint3.gameObject.SetActive(false);
 
                 list1 = Test(beltJoint1, beltJoint2.position, false);
-                //list2 = Test(beltJoint2, beltJoint1.position, false);
+                if(Mathf.Abs(beltJoint1.position.y - beltJoint2.position.y) > 0.2f)
+                    list2 = Test2(beltJoint2, beltJoint1, false);
             }
         }
         else

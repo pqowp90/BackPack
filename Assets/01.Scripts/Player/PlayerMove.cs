@@ -14,6 +14,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private float sensitivity;
     private CharacterController controller;
+    public CharacterController Controller{get{if(!controller) controller = GetComponent<CharacterController>();return controller;}}
     private float xRotation = 0f;
     private float yRotation = 0f;
     [SerializeField]
@@ -66,15 +67,10 @@ public class PlayerMove : MonoBehaviour
 
     private bool IsSliding{
         get{
-            Debug.DrawRay(transform.position, Vector3.down*2f, Color.blue);
-            if(controller.isGrounded && Physics.Raycast(transform.position, Vector3.down, out RaycastHit slopeHit, 2f)){
-                hitPointNormal = slopeHit.normal;
-                return Vector3.Angle(hitPointNormal, Vector3.up)>controller.slopeLimit;
-            }else{
-                return false;
-            }
+            return minAngle > controller.slopeLimit;
         }
     }
+    private float minAngle;
     private float DowmDowm{
         get{
             Debug.DrawRay(transform.position, Vector3.down*2f, Color.blue);
@@ -85,7 +81,7 @@ public class PlayerMove : MonoBehaviour
             }
         }
     }
-
+    
     private void PositiveMove()
     {
 
@@ -181,6 +177,24 @@ public class PlayerMove : MonoBehaviour
         }
         
 
+    }
+    void OnCollisionStay(Collision collision)
+    {
+        minAngle = 90f;
+        foreach (ContactPoint contact in collision.contacts)
+        {
+            Debug.DrawRay(contact.point, contact.normal, Color.white);
+
+
+            Debug.DrawRay(contact.point, Vector3.down*2f, Color.blue);
+            if(controller.isGrounded && Physics.Raycast(contact.point, Vector3.down, out RaycastHit slopeHit, 2f)){
+                hitPointNormal = slopeHit.normal;
+                if(minAngle > Vector3.Angle(hitPointNormal, Vector3.up))
+                {
+                    minAngle = Vector3.Angle(hitPointNormal, Vector3.up);
+                }
+            }
+        }
     }
     
 }
