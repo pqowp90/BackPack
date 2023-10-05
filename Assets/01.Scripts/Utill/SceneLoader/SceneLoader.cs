@@ -130,6 +130,7 @@ public class SceneLoader : MonoBehaviour
 
     public static void LoadScene(string scene)
     {
+        if(IsLoading) return;
         _currentScene = SceneManager.GetActiveScene();
         _targetScene = scene;
         Instance.Load();

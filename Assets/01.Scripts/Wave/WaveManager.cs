@@ -25,8 +25,9 @@ public class WaveManager : MonoSingleton<WaveManager>
     public List<WaveSO> waveList = new List<WaveSO>();
     [SerializeField] private float _enemySpawnDelay;
     
-    private void Start() 
+    protected override void Start() 
     {
+        base.Start();
         timer = 0f;
         nextSpawnTime = 0;
         WaveCount = 0;

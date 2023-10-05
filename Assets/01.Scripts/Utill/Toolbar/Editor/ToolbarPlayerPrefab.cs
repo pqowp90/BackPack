@@ -8,7 +8,7 @@ using UnityToolbarExtender;
 [InitializeOnLoad]
 public class ToolbarPlayerPrefab
 {
-    private const string PLAYER_FILE_PATH = "Assets/04.Prefabs/Player.prefab";
+    private const string PLAYER_FILE_PATH = "Assets/Resources/Prefabs/Player.prefab";
     static ToolbarPlayerPrefab()
     {
         ToolbarExtender.LeftToolbarGUI.Add(OnToolbarGUI);

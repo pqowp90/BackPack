@@ -6,7 +6,6 @@ using System;
 
 public class BeltBuildingTest : MonoBehaviour
 {
-    public PlayerTool playerTool;
     [SerializeField]
     private GameObject beltPolesPrefab;
     [SerializeField]
@@ -61,7 +60,7 @@ public class BeltBuildingTest : MonoBehaviour
     private InstallationStatus nowInstallationStat;
 
     private const float StandardDistance = 1;
-
+    private Camera MainCamera{get{if(!mainCamera) mainCamera = BuildingManager.Instance.FirstCamera; return mainCamera;}}
     private Camera mainCamera;
     private Vector3 bottomPos;
     // test --------------------------------------------------------------
@@ -70,7 +69,6 @@ public class BeltBuildingTest : MonoBehaviour
     private void Start()
     {
         mainCamera = BuildingManager.Instance.FirstCamera;
-        playerTool = GetComponent<PlayerTool>();
     }
     private void Update() {
         
@@ -378,11 +376,7 @@ public class BeltBuildingTest : MonoBehaviour
     float time = 0f;
     private void Building()
     {
-        if(!playerTool)
-        {
-            playerTool = GameManager.Instance.Player.GetComponent<PlayerTool>();
-        }
-        if(playerTool.curToolEnum == ToolEmum.Scanner)
+        if(GameManager.Instance.Player.playerTool.curToolEnum == ToolEmum.Scanner)
         {
             if(nowInstallationStat == InstallationStatus.None)
                 nowInstallationStat = InstallationStatus.SelectFirstPoint;
@@ -424,7 +418,7 @@ public class BeltBuildingTest : MonoBehaviour
     }
     private void SelectFirstPointUpdate()
     {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = MainCamera.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit magnetRay;
 
@@ -465,7 +459,7 @@ public class BeltBuildingTest : MonoBehaviour
     private void SelectSecondPointUpdate()
     {
         beltRotate *= Quaternion.Euler(0, Input.GetAxis("Mouse ScrollWheel") * 150f, 0);
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = MainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
         if(Mathf.Abs(Input.GetAxis("Mouse ScrollWheel")) > 0)
@@ -512,9 +506,9 @@ public class BeltBuildingTest : MonoBehaviour
     }
     private void SelectHeightUpdate()
     {
-        float distance = Vector3.Distance(bottomPos, mainCamera.transform.position);
-        float height = mainCamera.transform.position.y - bottomPos.y;
-        float angle = mainCamera.transform.localEulerAngles.x * Mathf.Deg2Rad;
+        float distance = Vector3.Distance(bottomPos, MainCamera.transform.position);
+        float height = MainCamera.transform.position.y - bottomPos.y;
+        float angle = MainCamera.transform.localEulerAngles.x * Mathf.Deg2Rad;
 
         float targetHeight = Mathf.Clamp(Mathf.Tan(-angle) * distance + height, 0, Mathf.Infinity);
 

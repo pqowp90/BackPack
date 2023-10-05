@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -31,8 +33,16 @@ public class PlayerMove : MonoBehaviour
 
     private bool willSlideOnSlope = true;
     private Vector3 downForce;
+    private PlayerInput playerInput;
+    public InputAction moveAction;
+    public InputAction lookAction;
+    public InputAction jumpAction;
     private void Awake() {
         BuildingManager.Instance.SetCamera(myCamera);
+        playerInput = GetComponent<PlayerInput>();
+        moveAction = playerInput.actions["Move"];
+        lookAction = playerInput.actions["Look"];
+        jumpAction = playerInput.actions["Jump"];
     }
     private void Start()
     {
@@ -46,13 +56,14 @@ public class PlayerMove : MonoBehaviour
 
     private void RotateMove()
     {
-        float mouseX = Input.GetAxis("Mouse X") * sensitivity * 2f;
-        float mouseY = Input.GetAxis("Mouse Y") * sensitivity * 2f;
+        var lookInput = lookAction.ReadValue<Vector2>();
+        float mouseX = lookInput.x * sensitivity * 2f;
+        float mouseY = lookInput.y * sensitivity * 2f;
 
         xRotation -= mouseX;
         yRotation -= mouseY;
 
-        yRotation = Mathf.Clamp(yRotation, -90f, 90f);
+        yRotation = Mathf.Clamp(yRotation, -89f, 89f);
 
         myCamera.transform.localRotation = Quaternion.Euler(yRotation, 0f, 0f);
         transform.localRotation = Quaternion.Euler(0f, -xRotation, 0f);
@@ -67,10 +78,12 @@ public class PlayerMove : MonoBehaviour
 
     private bool IsSliding{
         get{
-            return minAngle > controller.slopeLimit;
+            bool sliding = minAngle > controller.slopeLimit;
+            minAngle = 90f;
+            return sliding;
         }
     }
-    private float minAngle;
+    private float minAngle = 90f;
     private float DowmDowm{
         get{
             Debug.DrawRay(transform.position, Vector3.down*2f, Color.blue);
@@ -81,6 +94,22 @@ public class PlayerMove : MonoBehaviour
             }
         }
     }
+    private void UpdateSlopeSliding()
+    {
+        if(isGrounded)
+        {
+            var sphereCastVerticalOffset = controller.height / 2 - controller.radius;
+            var castOrigin = transform.position - new Vector3(0f,sphereCastVerticalOffset, 0f);
+
+            if(Physics.SphereCast(castOrigin, controller.radius - 0.01f, Vector3.down,
+                out var hit, 0.05f, ~LayerMask.GetMask("Player"), QueryTriggerInteraction.Ignore))
+                {
+                    var collider = hit.collider;
+                    var angle = Vector3.Angle(Vector3.up, hit.normal);
+                    Debug.DrawLine(hit.point, hit.point + hit.normal, Color.black, 3f);
+                }
+        }
+    }
     
     private void PositiveMove()
     {
@@ -89,15 +118,16 @@ public class PlayerMove : MonoBehaviour
         float moveSpeed = speed;
         if(isRunning = Input.GetKey(KeyCode.LeftShift))
         {
-            moveSpeed *= 1.5f;
+            moveSpeed *= 1.7f;
         }
-        float moveX = Input.GetAxisRaw("Horizontal");
-        float moveZ = Input.GetAxisRaw("Vertical");
-        playerAnimation.isRunning = isRunning && (Mathf.Abs(moveX) + Mathf.Abs(moveZ) > 0);
+        // float moveX = Input.GetAxisRaw("Horizontal");
+        // float moveZ = Input.GetAxisRaw("Vertical");
+        var moveInput = moveAction.ReadValue<Vector2>();
+        playerAnimation.isRunning = isRunning && (moveInput.magnitude > 0);
 
-        Vector3 move = transform.right * moveX + transform.forward * moveZ;
+        Vector3 move = transform.right * moveInput.x + transform.forward * moveInput.y;
         move.Normalize();
-        playerAnimation.moveDir = (Vector3.right * moveX + Vector3.forward * moveZ).normalized;
+        playerAnimation.moveDir = Vector3.right * moveInput.x + Vector3.forward * moveInput.y;
         // 캐릭터의 이동 방향을 계산합니다.
         float yVelocity = curVelocity.y;
         float airControll = moveLerp;
@@ -106,7 +136,7 @@ public class PlayerMove : MonoBehaviour
             airControll *= 0.3f;
         }
         else{
-
+            
         }
         curVelocity.y = 0f;
         curVelocity = Vector3.Lerp(curVelocity, move * moveSpeed, Time.deltaTime * airControll);
@@ -125,7 +155,7 @@ public class PlayerMove : MonoBehaviour
         if (controller.isGrounded)
         {
             // 캐릭터가 땅에 있을 때만 점프 가능하도록 처리합니다.
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (jumpAction.ReadValue<float>() > 0)
             {
                 curVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
                 // 점프 높이에 따라 점프 속도를 계산합니다.
@@ -140,6 +170,16 @@ public class PlayerMove : MonoBehaviour
     }
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        
+        // Debug.DrawRay(hit.point, Vector3.down*2f, Color.blue);
+        // if(controller.isGrounded && Physics.Raycast(hit.point, Vector3.down, out RaycastHit slopeHit, 2f)){
+        //     hitPointNormal = slopeHit.normal;
+        //     if(minAngle > Vector3.Angle(hitPointNormal, Vector3.up))
+        //     {
+        //         minAngle = Vector3.Angle(hitPointNormal, Vector3.up);
+        //     }
+        // }
+
         // 충돌된 물체의 릿지드 바디를 가져옴
         Rigidbody body = hit.collider.attachedRigidbody;
 
@@ -160,6 +200,7 @@ public class PlayerMove : MonoBehaviour
     private void Update()
     {
         RotateMove();
+        UpdateSlopeSliding();
         PositiveMove();
         if(Input.GetKeyDown(KeyCode.G))
         {
@@ -178,23 +219,4 @@ public class PlayerMove : MonoBehaviour
         
 
     }
-    void OnCollisionStay(Collision collision)
-    {
-        minAngle = 90f;
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            Debug.DrawRay(contact.point, contact.normal, Color.white);
-
-
-            Debug.DrawRay(contact.point, Vector3.down*2f, Color.blue);
-            if(controller.isGrounded && Physics.Raycast(contact.point, Vector3.down, out RaycastHit slopeHit, 2f)){
-                hitPointNormal = slopeHit.normal;
-                if(minAngle > Vector3.Angle(hitPointNormal, Vector3.up))
-                {
-                    minAngle = Vector3.Angle(hitPointNormal, Vector3.up);
-                }
-            }
-        }
-    }
-    
 }

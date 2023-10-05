@@ -40,7 +40,7 @@ AvatarMask:
   - m_Path: Female
     m_Weight: 1
   - m_Path: Female/LowManHips
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManLeftUpLeg
     m_Weight: 1
   - m_Path: Female/LowManHips/LowManLeftUpLeg/LowManLeftLeg
@@ -62,11 +62,11 @@ AvatarMask:
   - m_Path: Female/LowManHips/LowManRightUpLeg/LowManRightLeg/LowManRightFoot/LowManRightToeBase/LowManRightToeBase_end
     m_Weight: 1
   - m_Path: Female/LowManHips/LowManSpine
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder
     m_Weight: 0
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm

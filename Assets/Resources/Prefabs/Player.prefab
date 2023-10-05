@@ -1077,7 +1077,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 845306076178647953}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.07999998, z: -0.19799995}
+  m_LocalPosition: {x: 0, y: -0.1, z: -0.19799995}
   m_LocalScale: {x: 0.7, y: 0.8, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1507,7 +1507,7 @@ GameObject:
   - component: {fileID: 6135275924618077065}
   - component: {fileID: 6171945148391375543}
   - component: {fileID: 6083011380175746541}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: HandCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -4540,6 +4540,37 @@ Transform:
   m_Father: {fileID: 8652589641560082988}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: -146.97, y: 34.36, z: -26.476013}
+--- !u!1 &4060916193944120392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1406183498758869289}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1406183498758869289
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4060916193944120392}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.0032634735, y: 0.6325018, z: -0.08553171}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5935283465384568143}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4166987031605646710
 GameObject:
   m_ObjectHideFlags: 0
@@ -4550,7 +4581,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2169051155381911018}
   - component: {fileID: 7962558713082848766}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SwayNBob
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4638,7 +4669,7 @@ GameObject:
   - component: {fileID: 1069996970053127510}
   - component: {fileID: 5344504872063039231}
   - component: {fileID: 2127347593382100742}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LegCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -6496,7 +6527,7 @@ GameObject:
   - component: {fileID: 6239468865691205920}
   - component: {fileID: 7150707832333739013}
   - component: {fileID: 458811462631768424}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -6559,7 +6590,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 951
+    m_Bits: 959
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -9227,7 +9258,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7650173309322540604}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.07999998, z: -0.19599998}
+  m_LocalPosition: {x: 0, y: -0.1, z: -0.19599998}
   m_LocalScale: {x: 0.7, y: 1, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -11136,7 +11167,9 @@ GameObject:
   - component: {fileID: 3480406861353660164}
   - component: {fileID: 4654439031871421435}
   - component: {fileID: 3450854695744079244}
-  m_Layer: 0
+  - component: {fileID: 1662546914741870417}
+  - component: {fileID: 4434714146474917940}
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11157,6 +11190,7 @@ Transform:
   m_Children:
   - {fileID: 7530930573507915934}
   - {fileID: 3755677495293483617}
+  - {fileID: 1406183498758869289}
   - {fileID: 4616334830400801932}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -11175,7 +11209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2.5
   moveLerp: 10
-  gravity: -9.81
+  gravity: -13
   jumpHeight: 1
   myCamera: {fileID: 6239468865691205920}
   sensitivity: 0.277
@@ -11184,6 +11218,33 @@ MonoBehaviour:
   isRunning: 0
   resistance: 0.4
   slopeSpeed: 1.1
+  moveAction:
+    m_Name: Move
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 9144f3a1-d56d-414b-ba2f-ce9db90e403d
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  lookAction:
+    m_Name: Look
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 3daf8afa-0c7e-41cd-94b3-3a1370fa0e87
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  jumpAction:
+    m_Name: Jump
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 20018ed3-711f-448a-8692-582785e6b851
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!143 &1853593292256626211
 CharacterController:
   m_ObjectHideFlags: 0
@@ -11205,7 +11266,7 @@ CharacterController:
   serializedVersion: 3
   m_Height: 1.5
   m_Radius: 0.24
-  m_SlopeLimit: 60
+  m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
@@ -11262,6 +11323,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CameraTransform: {fileID: 4616334830400801932}
   LegGameObject: {fileID: 7650173309322540604}
+--- !u!114 &1662546914741870417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8878940115208842648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea1700eb410b8004a93bfc6d78b51320, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMove: {fileID: 0}
+  playerTool: {fileID: 0}
+--- !u!114 &4434714146474917940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8878940115208842648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: af60087245568cd4ea6c1d6f5574e9f1,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &8896801596802566464
 GameObject:
   m_ObjectHideFlags: 0
