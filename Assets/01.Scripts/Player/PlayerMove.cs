@@ -1,5 +1,7 @@
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
+using System;
 using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
@@ -13,6 +15,8 @@ public class PlayerMove : MonoBehaviour
     private float jumpHeight = 1f;
     [SerializeField]
     private Camera myCamera;
+    [SerializeField]
+    private Transform cameraRoot;
     [SerializeField]
     private float sensitivity;
     private CharacterController controller;
@@ -37,6 +41,7 @@ public class PlayerMove : MonoBehaviour
     public InputAction moveAction;
     public InputAction lookAction;
     public InputAction jumpAction;
+    public int jumpCount;
     private void Awake() {
         BuildingManager.Instance.SetCamera(myCamera);
         playerInput = GetComponent<PlayerInput>();
@@ -65,7 +70,7 @@ public class PlayerMove : MonoBehaviour
 
         yRotation = Mathf.Clamp(yRotation, -89f, 89f);
 
-        myCamera.transform.localRotation = Quaternion.Euler(yRotation, 0f, 0f);
+        cameraRoot.transform.localRotation = Quaternion.Euler(yRotation, 0f, 0f);
         transform.localRotation = Quaternion.Euler(0f, -xRotation, 0f);
         // 캐릭터의 상하 회전을 마우스 입력에 따라 조절합니다.
     }
@@ -76,13 +81,13 @@ public class PlayerMove : MonoBehaviour
         curVelocity.y += velocity.y;
     }
 
-    private bool IsSliding{
-        get{
-            bool sliding = minAngle > controller.slopeLimit;
-            minAngle = 90f;
-            return sliding;
-        }
-    }
+    // private bool IsSliding{
+    //     get{
+    //         bool sliding = minAngle > controller.slopeLimit;
+    //         minAngle = 90f;
+    //         return sliding;
+    //     }
+    // }
     private float minAngle = 90f;
     private float DowmDowm{
         get{
@@ -94,20 +99,41 @@ public class PlayerMove : MonoBehaviour
             }
         }
     }
+    private Action OnNextDrawGizmos;
+
+    private void OnDrawGizmos()
+    {
+        OnNextDrawGizmos?.Invoke();
+        OnNextDrawGizmos = null; 
+    }
+    private bool isSliding;
     private void UpdateSlopeSliding()
     {
         if(isGrounded)
         {
             var sphereCastVerticalOffset = controller.height / 2 - controller.radius;
-            var castOrigin = transform.position - new Vector3(0f,sphereCastVerticalOffset, 0f);
-
+            var castOrigin = transform.position - new Vector3(0f,sphereCastVerticalOffset, 0f) + controller.center;
+            float downLength = 0.05f + controller.skinWidth;
+            OnNextDrawGizmos += () => Gizmos.DrawSphere(castOrigin + Vector3.down * downLength, controller.radius - 0.01f);
             if(Physics.SphereCast(castOrigin, controller.radius - 0.01f, Vector3.down,
-                out var hit, 0.05f, ~LayerMask.GetMask("Player"), QueryTriggerInteraction.Ignore))
+                out var hit, downLength, ~LayerMask.GetMask("Player"), QueryTriggerInteraction.Ignore))
+            {
+                var collider = hit.collider;
+                var angle = Vector3.Angle(Vector3.up, hit.normal);
+                Debug.DrawLine(hit.point, hit.point + hit.normal, Color.black, 3f);
+                if(angle > controller.slopeLimit)
                 {
-                    var collider = hit.collider;
-                    var angle = Vector3.Angle(Vector3.up, hit.normal);
-                    Debug.DrawLine(hit.point, hit.point + hit.normal, Color.black, 3f);
+                    var nomal = hit.normal;
+                    var yInverse = 1f - nomal.y;
+                    curVelocity.x += yInverse * nomal.x * Time.deltaTime * slopeSpeed * 100f;
+                    curVelocity.z += yInverse * nomal.z * Time.deltaTime * slopeSpeed * 100f;
+                    isSliding = true;
                 }
+                else
+                {
+                    isSliding = false;
+                }
+            }
         }
     }
     
@@ -145,9 +171,10 @@ public class PlayerMove : MonoBehaviour
         curVelocity.y += gravity * Time.deltaTime;
 
         downForce = Vector3.zero;
-        if(willSlideOnSlope && IsSliding && controller.isGrounded){
-            curVelocity += new Vector3(hitPointNormal.x, -hitPointNormal.y, hitPointNormal.z) * slopeSpeed;
-        }else if(curVelocity.y < 0){
+        // if(willSlideOnSlope && IsSliding && controller.isGrounded){
+        //     curVelocity += new Vector3(hitPointNormal.x, -hitPointNormal.y, hitPointNormal.z) * slopeSpeed;
+        // }else 
+        if(curVelocity.y < 0){
             downForce = -DowmDowm * Vector3.up;
         }
 
@@ -159,7 +186,7 @@ public class PlayerMove : MonoBehaviour
             {
                 curVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
                 // 점프 높이에 따라 점프 속도를 계산합니다.
-                playerAnimation.Jump();
+                playerAnimation.GoJump();
             }
             else
             {

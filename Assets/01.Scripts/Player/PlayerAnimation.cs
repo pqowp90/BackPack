@@ -49,10 +49,18 @@ public class PlayerAnimation : MonoBehaviour
         }
         changeToolCorutine = StartCoroutine(ChangeToolState(tool));
     }
+    private readonly int Changing = Animator.StringToHash("Changing");
+    private readonly int ChangeBlend = Animator.StringToHash("ChangeBlend");
+    private readonly int ChangeTool = Animator.StringToHash("ChangeTool");
+    private readonly int Jump = Animator.StringToHash("Jump");
+    private readonly int WalkSpeed = Animator.StringToHash("WalkSpeed");
+    private readonly int IsGround = Animator.StringToHash("IsGround");
+    private readonly int X = Animator.StringToHash("X");
+    private readonly int Y = Animator.StringToHash("Y");
     private IEnumerator ChangeToolState(ToolEmum tool)
     {
-        handAnimator.SetTrigger("Changing");
-        shadowAnimagtor.SetTrigger("Changing");
+        handAnimator.SetTrigger(Changing);
+        shadowAnimagtor.SetTrigger(Changing);
         yield return new WaitForSeconds(changeDeley);
         handAnimator.runtimeAnimatorController = animatorDictionary[tool];
         shadowAnimagtor.runtimeAnimatorController = animatorDictionary[tool];
@@ -67,35 +75,38 @@ public class PlayerAnimation : MonoBehaviour
     private void Start() {
         playerMove = GetComponent<PlayerMove>();
     }
-    public void Jump()
+    public void GoJump()
     {
-        shadowAnimagtor.SetTrigger("Jump");
-        handAnimator.SetTrigger("Jump");
-        legAnimator.SetTrigger("Jump");
+        shadowAnimagtor.SetTrigger(Jump);
+        handAnimator.SetTrigger(Jump);
+        legAnimator.SetTrigger(Jump);
     }
     private void Update() {
         if( changeBlend <= 1)
         {
             changeBlend += Time.deltaTime / changeDeley;
-            handAnimator.SetFloat("ChangeBlend", changeBlend);
-            shadowAnimagtor.SetFloat("ChangeBlend", changeBlend);
+            handAnimator.SetFloat(ChangeBlend, changeBlend);
+            shadowAnimagtor.SetFloat(ChangeBlend, changeBlend);
         }
         run = ((isRunning&&playerMove.isGrounded)?1f:0f) + moveDir.magnitude;
         lerpedRun = Mathf.Lerp(lerpedRun, run, Time.deltaTime * 10f);
-        handAnimator.SetFloat("WalkSpeed", lerpedRun);
-        legAnimator.SetFloat("WalkSpeed", lerpedRun);
-        shadowAnimagtor.SetFloat("WalkSpeed", lerpedRun);
+        handAnimator.SetFloat(WalkSpeed, lerpedRun);
+        legAnimator.SetFloat(WalkSpeed, lerpedRun);
+        shadowAnimagtor.SetFloat(WalkSpeed, lerpedRun);
         
         lerpedMoveDir = Vector3.Lerp(lerpedMoveDir, moveDir * ((isRunning&&playerMove.isGrounded)?2f:1f), Time.deltaTime * 8f);
 
-        legAnimator.SetFloat("X", lerpedMoveDir.x);
-        legAnimator.SetFloat("Y", lerpedMoveDir.z);
-        shadowAnimagtor.SetFloat("X", lerpedMoveDir.x);
-        shadowAnimagtor.SetFloat("Y", lerpedMoveDir.z);
+        //legAnimator.Update(Time.deltaTime);
+        //shadowAnimagtor.Update(Time.deltaTime);
 
-        shadowAnimagtor.SetBool("IsGround", playerMove.isGrounded);
-        legAnimator.SetBool("IsGround", playerMove.isGrounded);
-        handAnimator.SetBool("IsGround", playerMove.isGrounded);
+        legAnimator.SetFloat(X, lerpedMoveDir.x);
+        legAnimator.SetFloat(Y, lerpedMoveDir.z);
+        shadowAnimagtor.SetFloat(X, lerpedMoveDir.x);
+        shadowAnimagtor.SetFloat(Y, lerpedMoveDir.z);
+
+        shadowAnimagtor.SetBool(IsGround, playerMove.isGrounded);
+        legAnimator.SetBool(IsGround, playerMove.isGrounded);
+        handAnimator.SetBool(IsGround, playerMove.isGrounded);
         
     }
     

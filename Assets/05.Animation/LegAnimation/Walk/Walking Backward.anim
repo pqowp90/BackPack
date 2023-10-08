@@ -1498,7 +1498,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: -19.091, y: 0, z: 0}
+        value: {x: -45, y: 0, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -3383,7 +3383,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -19.091
+        value: -45
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -14288,7 +14288,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Female/LowManHips/LowManSpine/LowManSpine1
+    path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -14300,7 +14300,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Female/LowManHips/LowManSpine/LowManSpine1
+    path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -14312,7 +14312,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Female/LowManHips/LowManSpine/LowManSpine1
+    path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -14396,7 +14396,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand
+    path: Female/LowManHips/LowManSpine/LowManSpine1
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -14408,7 +14408,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand
+    path: Female/LowManHips/LowManSpine/LowManSpine1
     classID: 4
     script: {fileID: 0}
     flags: 0
@@ -14420,7 +14420,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand
+    path: Female/LowManHips/LowManSpine/LowManSpine1
     classID: 4
     script: {fileID: 0}
     flags: 0

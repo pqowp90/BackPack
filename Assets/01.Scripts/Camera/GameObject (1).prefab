@@ -1,0 +1,161 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8206546293017332257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3875387517366504498}
+  - component: {fileID: 7845030956262894073}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3875387517366504498
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8206546293017332257}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.295565, y: -11.068303, z: -0.56240976}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7845030956262894073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8206546293017332257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31078eadf863a194f936348981357549, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nowPos: {x: 0, y: 0, z: 0}
+  nowAngle: {x: 0, y: 0, z: 0}
+  cameraPosition: {x: 0, y: 0, z: 0}
+  cameraAngle: {x: 0, y: 0, z: 0}
+  posForceDemp: 20
+  angleForceDemp: 5
+  positionElasticForce: 2
+  forceResistance: 8
+  angleElasticForce: 8
+  shakeModes:
+  - forceModeEnum: 0
+    posVelocity: {x: 0.5, y: -1.5, z: 0}
+    angleVelocity: {x: 0.3, y: 0.25, z: 0}
+    isShake: 0
+    isRotate: 0
+    shakeModeEnum: 0
+    duration: 0
+    strengthV: {x: 0, y: 0, z: 0}
+    strengthF: 1
+    vibrato: 10
+    randomness: 90
+    snapping: 0
+    fadeOut: 1
+  - forceModeEnum: 5
+    posVelocity: {x: -0.5, y: -1.5, z: 0}
+    angleVelocity: {x: 0.3, y: -0.25, z: 0}
+    isShake: 0
+    isRotate: 0
+    shakeModeEnum: 0
+    duration: 0
+    strengthV: {x: 0, y: 0, z: 0}
+    strengthF: 1
+    vibrato: 10
+    randomness: 90
+    snapping: 0
+    fadeOut: 1
+  - forceModeEnum: 1
+    posVelocity: {x: 0.5, y: -2.5, z: 0}
+    angleVelocity: {x: 0.4, y: 0.5, z: 1}
+    isShake: 0
+    isRotate: 0
+    shakeModeEnum: 0
+    duration: 0
+    strengthV: {x: 0, y: 0, z: 0}
+    strengthF: 1
+    vibrato: 10
+    randomness: 90
+    snapping: 0
+    fadeOut: 1
+  - forceModeEnum: 6
+    posVelocity: {x: -0.5, y: -2.5, z: 0}
+    angleVelocity: {x: 0.4, y: -0.5, z: -1}
+    isShake: 0
+    isRotate: 0
+    shakeModeEnum: 0
+    duration: 0
+    strengthV: {x: 0, y: 0, z: 0}
+    strengthF: 1
+    vibrato: 10
+    randomness: 90
+    snapping: 0
+    fadeOut: 1
+  - forceModeEnum: 2
+    posVelocity: {x: 0, y: 1, z: 1}
+    angleVelocity: {x: 2, y: 0, z: 0}
+    isShake: 0
+    isRotate: 0
+    shakeModeEnum: 0
+    duration: 0
+    strengthV: {x: 0, y: 0, z: 0}
+    strengthF: 1
+    vibrato: 10
+    randomness: 90
+    snapping: 0
+    fadeOut: 1
+  - forceModeEnum: 3
+    posVelocity: {x: 0, y: -0.5, z: 1}
+    angleVelocity: {x: 0, y: 0, z: 0}
+    isShake: 0
+    isRotate: 0
+    shakeModeEnum: 0
+    duration: 0
+    strengthV: {x: 0, y: 0, z: 0}
+    strengthF: 1
+    vibrato: 10
+    randomness: 90
+    snapping: 0
+    fadeOut: 1
+  - forceModeEnum: 4
+    posVelocity: {x: 0, y: -2, z: -0.5}
+    angleVelocity: {x: 5, y: 0, z: 0}
+    isShake: 1
+    isRotate: 1
+    shakeModeEnum: 1
+    duration: 0.2
+    strengthV: {x: 0.3, y: -0.5, z: 0.3}
+    strengthF: 1
+    vibrato: 20
+    randomness: 90
+    snapping: 0
+    fadeOut: 1
+  - forceModeEnum: 7
+    posVelocity: {x: 0, y: 0, z: 0}
+    angleVelocity: {x: 0, y: 0, z: 0}
+    isShake: 1
+    isRotate: 1
+    shakeModeEnum: 2
+    duration: 0.2
+    strengthV: {x: 0.3, y: -0.5, z: 0.3}
+    strengthF: 0.6
+    vibrato: 10
+    randomness: 90
+    snapping: 0
+    fadeOut: 1
+  targetTransfrom: {fileID: 0}
