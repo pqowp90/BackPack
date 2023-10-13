@@ -62,11 +62,13 @@ public class DrawIfPropertyDrawer : PropertyDrawer
         if (ShowMe(property))
         {
             EditorGUI.PropertyField(position, property);
+            EditorGUILayout.Space(20f);
         } //...check if the disabling type is read only. If it is, draw it disabled
         else if (drawIf.disablingType == DrawIfAttribute.DisablingType.ReadOnly)
         {
             GUI.enabled = false;
             EditorGUI.PropertyField(position, property);
+            EditorGUILayout.Space(20f);
             GUI.enabled = true;
         }
     }

@@ -1,0 +1,149 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hand
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Bandana
+    m_Weight: 1
+  - m_Path: Female
+    m_Weight: 1
+  - m_Path: Female/LowManHips
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManLeftUpLeg
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManLeftUpLeg/LowManLeftLeg
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManLeftUpLeg/LowManLeftLeg/LowManLeftFoot
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManLeftUpLeg/LowManLeftLeg/LowManLeftFoot/LowManLeftToeBase
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManLeftUpLeg/LowManLeftLeg/LowManLeftFoot/LowManLeftToeBase/LowManLeftToeBase_end
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManRightUpLeg
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManRightUpLeg/LowManRightLeg
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManRightUpLeg/LowManRightLeg/LowManRightFoot
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManRightUpLeg/LowManRightLeg/LowManRightFoot/LowManRightToeBase
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManRightUpLeg/LowManRightLeg/LowManRightFoot/LowManRightToeBase/LowManRightToeBase_end
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandIndex1
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandIndex1/LowManLeftHandIndex2
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandIndex1/LowManLeftHandIndex2/LowManLeftHandIndex2_end
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandMiddle1
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandMiddle1/LowManLeftHandMiddle2
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandMiddle1/LowManLeftHandMiddle2/LowManLeftHandMiddle2_end
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandPinky1
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandPinky1/LowManLeftHandPinky2
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandPinky1/LowManLeftHandPinky2/LowManLeftHandPinky2_end
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandRing1
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandRing1/LowManLeftHandRing2
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandRing1/LowManLeftHandRing2/LowManLeftHandRing2_end
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandThumb1
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandThumb1/LowManLeftHandThumb1_end
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManNeck
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManNeck/LowManHead
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManNeck/LowManHead/LowManHead_end
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand/LowManRightHandIndex1
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand/LowManRightHandIndex1/LowManRightHandIndex2
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand/LowManRightHandIndex1/LowManRightHandIndex2/LowManRightHandIndex2_end
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand/LowManRightHandMiddle1
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand/LowManRightHandMiddle1/LowManRightHandMiddle2
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand/LowManRightHandMiddle1/LowManRightHandMiddle2/LowManRightHandMiddle2_end
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand/LowManRightHandPinky1
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand/LowManRightHandPinky1/LowManRightHandPinky2
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand/LowManRightHandPinky1/LowManRightHandPinky2/LowManRightHandPinky2_end
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand/LowManRightHandRing1
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand/LowManRightHandRing1/LowManRightHandRing2
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand/LowManRightHandRing1/LowManRightHandRing2/LowManRightHandRing2_end
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand/LowManRightHandThumb1
+    m_Weight: 1
+  - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand/LowManRightHandThumb1/LowManRightHandThumb1_end
+    m_Weight: 1
+  - m_Path: Fustanella 1
+    m_Weight: 1
+  - m_Path: Fustanella 2
+    m_Weight: 1
+  - m_Path: Ghillie Suit Head
+    m_Weight: 1
+  - m_Path: Ghillie Suit Legs
+    m_Weight: 1
+  - m_Path: Ghillie Suit Torso
+    m_Weight: 1
+  - m_Path: Head 1 Female
+    m_Weight: 1
+  - m_Path: Head 1 Female Hair 1
+    m_Weight: 1
+  - m_Path: Head 1 Female Hair 2
+    m_Weight: 1
+  - m_Path: Hood 1
+    m_Weight: 1
+  - m_Path: Legs Female
+    m_Weight: 1
+  - m_Path: Shoulder Pads
+    m_Weight: 1
+  - m_Path: Torso Female
+    m_Weight: 1
+  - m_Path: Torso Female Armor
+    m_Weight: 1

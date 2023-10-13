@@ -204,7 +204,7 @@ public class BeltBuildingTest : MonoBehaviour
                 list1 = Test(beltJoint1, beltJoint3.position);
                 list3 = Test(beltJoint3, beltJoint2.position, false);
                 if(Mathf.Abs(beltJoint1.position.y - beltJoint2.position.y) > 0.2f)
-                    list2 = Test2(beltJoint2, beltJoint3, false);
+                    list2 = Test(beltJoint2, beltJoint3.position, false);
 
             }
             else
@@ -213,7 +213,7 @@ public class BeltBuildingTest : MonoBehaviour
 
                 list1 = Test(beltJoint1, beltJoint2.position, false);
                 if(Mathf.Abs(beltJoint1.position.y - beltJoint2.position.y) > 0.2f)
-                    list2 = Test2(beltJoint2, beltJoint1, false);
+                    list2 = Test(beltJoint2, beltJoint1.position, false);
             }
         }
         else
@@ -508,7 +508,7 @@ public class BeltBuildingTest : MonoBehaviour
     {
         float distance = Vector3.Distance(bottomPos, MainCamera.transform.position);
         float height = MainCamera.transform.position.y - bottomPos.y;
-        float angle = MainCamera.transform.localEulerAngles.x * Mathf.Deg2Rad;
+        float angle = MainCamera.transform.eulerAngles.x * Mathf.Deg2Rad;
 
         float targetHeight = Mathf.Clamp(Mathf.Tan(-angle) * distance + height, 0, Mathf.Infinity);
 

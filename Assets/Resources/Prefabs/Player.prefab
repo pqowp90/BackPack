@@ -2894,6 +2894,8 @@ MonoBehaviour:
   positionElasticForce: 2
   forceResistance: 8
   angleElasticForce: 8
+  maxForcePos: 0.8
+  maxForceRot: 30
   shakeModes:
   - forceModeEnum: 0
     posVelocity: {x: 0.5, y: -1.5, z: 0}
@@ -2930,7 +2932,7 @@ MonoBehaviour:
     duration: 0
     strengthV: {x: 0, y: 0, z: 0}
     strengthF: 1
-    vibrato: 10
+    vibrato: 5
     randomness: 90
     snapping: 0
     fadeOut: 1
@@ -2969,20 +2971,20 @@ MonoBehaviour:
     duration: 0
     strengthV: {x: 0, y: 0, z: 0}
     strengthF: 1
-    vibrato: 10
+    vibrato: 5
     randomness: 90
     snapping: 0
     fadeOut: 1
   - forceModeEnum: 4
     posVelocity: {x: 0, y: -2, z: -0.5}
-    angleVelocity: {x: 5, y: 0, z: 0}
+    angleVelocity: {x: 2.5, y: 0, z: 0}
     isShake: 1
     isRotate: 1
     shakeModeEnum: 1
     duration: 0.2
     strengthV: {x: 0.3, y: -0.5, z: 0.3}
     strengthF: 1
-    vibrato: 20
+    vibrato: 10
     randomness: 90
     snapping: 0
     fadeOut: 1
@@ -9551,6 +9553,8 @@ MonoBehaviour:
   positionElasticForce: 0
   forceResistance: 0
   angleElasticForce: 0
+  maxForcePos: 0.8
+  maxForceRot: 30
   shakeModes: []
   targetTransfrom: {fileID: 0}
 --- !u!1 &7677068286360273815
@@ -11087,6 +11091,8 @@ MonoBehaviour:
   positionElasticForce: 0
   forceResistance: 0
   angleElasticForce: 0
+  maxForcePos: 0.8
+  maxForceRot: 30
   shakeModes: []
   targetTransfrom: {fileID: 0}
 --- !u!1 &8821831222078723840
@@ -11555,7 +11561,7 @@ CharacterController:
   serializedVersion: 3
   m_Height: 1.5
   m_Radius: 0.24
-  m_SlopeLimit: 45
+  m_SlopeLimit: 60
   m_StepOffset: 0.3
   m_SkinWidth: 0.03
   m_MinMoveDistance: 0.001

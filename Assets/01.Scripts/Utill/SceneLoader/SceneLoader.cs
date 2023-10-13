@@ -11,6 +11,7 @@ public class SceneLoader : MonoBehaviour
 {
     [SerializeField] private new Camera camera;
     [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private GameObject loadingShip;
     [SerializeField] private Text tipText;
     [SerializeField] private float delayTime = 0.5f;
     [SerializeField] private float transitionTime = 0.5f;
@@ -55,6 +56,7 @@ public class SceneLoader : MonoBehaviour
 
     private IEnumerator ShowLoadingScreenCoroutine()
     {
+        loadingShip.SetActive(true);
         SoundManager.Instance.PlayBGM(SoundEnum.NightMelodybyLuden_Unminus);
         SoundManager.Instance.SetBGMVolum(0.1f);
         SoundManager.Instance.SetBGMTime(60f);
@@ -84,6 +86,7 @@ public class SceneLoader : MonoBehaviour
     private IEnumerator HideLoadingScreenCoroutine()
     {
         canvasGroup.DOFade(0, transitionTime);
+        loadingShip.SetActive(false);
         yield return new WaitForSeconds(transitionTime);
     }
 

@@ -4401,7 +4401,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &342538166
 Transform:
   m_ObjectHideFlags: 0
@@ -11409,6 +11409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camera: {fileID: 497440018}
   canvasGroup: {fileID: 851362981}
+  loadingShip: {fileID: 342538165}
   tipText: {fileID: 800729825}
   delayTime: 5
   transitionTime: 0.5

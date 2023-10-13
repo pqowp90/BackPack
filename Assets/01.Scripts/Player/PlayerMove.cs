@@ -92,7 +92,7 @@ public class PlayerMove : MonoBehaviour
     private float DowmDowm{
         get{
             Debug.DrawRay(transform.position, Vector3.down*2f, Color.blue);
-            if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit slopeHit, 0.2f)){
+            if(Physics.Raycast(transform.position, Vector3.down, out RaycastHit slopeHit, 0.1f)){
                 return Vector3.Angle(slopeHit.normal, Vector3.down)/9f;
             }else{
                 return 0f;
@@ -115,12 +115,12 @@ public class PlayerMove : MonoBehaviour
             var castOrigin = transform.position - new Vector3(0f,sphereCastVerticalOffset, 0f) + controller.center;
             float downLength = 0.05f + controller.skinWidth;
             OnNextDrawGizmos += () => Gizmos.DrawSphere(castOrigin + Vector3.down * downLength, controller.radius - 0.01f);
-            if(Physics.SphereCast(castOrigin, controller.radius - 0.01f, Vector3.down,
+            if(Physics.SphereCast(castOrigin, controller.radius - 0.001f, Vector3.down,
                 out var hit, downLength, ~LayerMask.GetMask("Player"), QueryTriggerInteraction.Ignore))
             {
                 var collider = hit.collider;
                 var angle = Vector3.Angle(Vector3.up, hit.normal);
-                Debug.DrawLine(hit.point, hit.point + hit.normal, Color.black, 3f);
+                //Debug.DrawLine(hit.point, hit.point + hit.normal, Color.black, 3f);
                 if(angle > controller.slopeLimit)
                 {
                     var nomal = hit.normal;
@@ -179,7 +179,7 @@ public class PlayerMove : MonoBehaviour
         }
 
         controller.Move((curVelocity + addForce + downForce) * Time.deltaTime);
-        if (controller.isGrounded)
+        if (controller.isGrounded && !isSliding)
         {
             // 캐릭터가 땅에 있을 때만 점프 가능하도록 처리합니다.
             if (jumpAction.ReadValue<float>() > 0)

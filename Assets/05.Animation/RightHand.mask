@@ -6,37 +6,37 @@ AvatarMask:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PlayerMask 1
+  m_Name: RightHand
   m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
   m_Elements:
   - m_Path: 
     m_Weight: 1
   - m_Path: Bandana
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Bandolier
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Baseball Hat
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Belt 1
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Cape 1
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Cape 2
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Cape 3
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Cape 4
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Cape Bones
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Cape Bones/Bone 0
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Cape Bones/Bone 0/Bone 1
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Cape Bones/Bone 0/Bone 1/Bone 2
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Cape Bones/Bone 0/Bone 1/Bone 2/Bone 2_end
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female
     m_Weight: 1
   - m_Path: Female/LowManHips
@@ -44,23 +44,23 @@ AvatarMask:
   - m_Path: Female/LowManHips/LowManLeftUpLeg
     m_Weight: 0
   - m_Path: Female/LowManHips/LowManLeftUpLeg/LowManLeftLeg
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManLeftUpLeg/LowManLeftLeg/LowManLeftFoot
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManLeftUpLeg/LowManLeftLeg/LowManLeftFoot/LowManLeftToeBase
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManLeftUpLeg/LowManLeftLeg/LowManLeftFoot/LowManLeftToeBase/LowManLeftToeBase_end
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManRightUpLeg
     m_Weight: 0
   - m_Path: Female/LowManHips/LowManRightUpLeg/LowManRightLeg
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManRightUpLeg/LowManRightLeg/LowManRightFoot
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManRightUpLeg/LowManRightLeg/LowManRightFoot/LowManRightToeBase
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManRightUpLeg/LowManRightLeg/LowManRightFoot/LowManRightToeBase/LowManRightToeBase_end
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManSpine
     m_Weight: 1
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1
@@ -68,23 +68,23 @@ AvatarMask:
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2
     m_Weight: 1
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandMiddle1
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandMiddle1/LowManLeftHandMiddle2
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandMiddle1/LowManLeftHandMiddle2/LowManLeftHandMiddle2_end
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandThumb1
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManLeftShoulder/LowManLeftArm/LowManLeftForeArm/LowManLeftHand/LowManLeftHandThumb1/LowManLeftHandThumb1_end
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManNeck
     m_Weight: 1
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManNeck/LowManHead
@@ -110,38 +110,38 @@ AvatarMask:
   - m_Path: Female/LowManHips/LowManSpine/LowManSpine1/LowManSpine2/LowManRightShoulder/LowManRightArm/LowManRightForeArm/LowManRightHand/LowManRightHandThumb1/LowManRightHandThumb1_end
     m_Weight: 1
   - m_Path: Female/Shoulder Pads
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Fustanella 1
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Fustanella 2
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Ghillie Suit Head
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Ghillie Suit Legs
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Ghillie Suit Torso
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Head 1 Female
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Head 1 Female Hair 1
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Head 1 Female Hair 2
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Hood 1
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Legs Female
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Mask 1
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Mask 2
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Mask 3
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Scarf 1
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Strap 1
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Torso Female
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Torso Female Armor
-    m_Weight: 1
+    m_Weight: 0

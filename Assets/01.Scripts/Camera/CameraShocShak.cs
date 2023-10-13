@@ -63,6 +63,10 @@ public class CameraShocShak : MonoBehaviour
     [SerializeField]
     private float angleElasticForce = 0f;           // 각도 탄성
     [SerializeField]
+    private float maxForcePos = 0.8f;       // 포지션 맥스
+    [SerializeField]
+    private float maxForceRot = 30f;       // 로테이션 맥스
+    [SerializeField]
     private List<Force_Mode> shakeModes = new List<Force_Mode>(0);
     [SerializeField]
     private Transform targetTransfrom = null;
@@ -82,6 +86,9 @@ public class CameraShocShak : MonoBehaviour
 
         nowPos += realCameraPosition * Time.deltaTime;
         nowAngle += realCameraAngle * Time.deltaTime * 100f;
+
+        nowPos = Vector3.ClampMagnitude(nowPos, maxForcePos);
+        nowAngle = Vector3.ClampMagnitude(nowAngle, maxForceRot);
 
         cameraPosition = Vector3.Lerp(cameraPosition, Vector3.zero, forceResistance * Time.deltaTime);
         cameraAngle = Vector3.Lerp(cameraAngle, Vector3.zero, forceResistance * Time.deltaTime);
